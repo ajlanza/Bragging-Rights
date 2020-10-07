@@ -1,0 +1,25 @@
+.new-bet-form{
+    background-color: lightcyan;
+    justify-content: left;
+}
+
+label{
+    /* display: inline-block; */
+    display: block;
+    margin-left: 35px;
+    /* width: 49%;
+    height: 1em; */
+    text-align: left;   
+    /* border: 2px solid black; 
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    background-color: lightgray; */
+}
+input, select{
+  /* display: inline-block;  */
+  display: block;
+  margin-left: 35px;
+  /* width: 48%; 
+  height: 1em; */
+}
+

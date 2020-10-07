@@ -1,0 +1,72 @@
+
+ul {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none; 
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    display: flex;
+}
+
+.bets-container{
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: no-wrap;
+  width: 100%;
+}
+
+.each-bet{
+  display: flex;
+  margin: 2px;
+  padding: 2px;
+  border: 2px black solid;
+  border-radius: 10px;
+  flex: 1;
+  background-color: lightcyan;
+  color: black;
+  box-shadow: 5px 10px silver;
+  width: 100%;
+}
+
+.selected-bet{
+    display: absolute;
+    position: sticky;
+    top: 1.5em;
+    margin: 2px;
+    padding: 2px;
+    border: 2px black solid;
+    border-radius: 10px;
+    flex: 1;
+    background-color: lightcyan;
+    color: black;
+    width: 100%;
+    justify-content: stretch;
+  }
+
+.new-bet{
+  display: flex;
+  margin: 2px;
+  padding: 2px;
+  border: 2px black solid;
+  border-radius: 10px;
+  flex: 1;
+  background-color: black;
+  color: black;
+  box-shadow: 5px 10px silver;
+  width: 100%;
+}
+
+img {
+  height: 1em;
+  width: 1em;
+  padding: 0;
+  margin: 0;
+ }
+
+.wagerIcon{
+  padding-right: 10px;
+}

@@ -1,0 +1,55 @@
+
+.profilePicture, .friendAvatar {
+  height: 128px;
+  width: 128px;
+  background-color: lightcyan;
+  border: 2px solid #010C1F;
+  border-radius: 100px;
+}
+
+.friendContainer, .betContainer {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+.wager{
+  background-color: lightcyan;
+  border: 2px solid #010C1F;
+  border-radius: 10px;
+  margin: 2px;
+  padding: 2px;
+  height: 10em;
+  width: 10em;
+  text-align: center;
+  cursor: pointer;
+}
+.wager:hover{
+  background-color: darkcyan;
+}
+
+.friend{
+  background-color: lightcyan;
+  border: 2px solid #010C1F;
+  border-radius: 10px;
+  margin: 2px;
+  padding: 2px;
+  height: 10em;
+  width: 10em;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.wagerIcon{
+  padding-right: 10px;
+}
+
+
+
+
+/* .betName{
+  color: chartreuse;
+  border: 2px solid #010C1F;
+  border-radius: 10px;
+  margin: 2px;
+} */
