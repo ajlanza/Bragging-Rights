@@ -22,4 +22,8 @@ input, select{
   /* width: 48%; 
   height: 1em; */
 }
-
+.noValues{
+  text-align: left;
+  margin-left: 35px;
+  font-size: 16px;
+}

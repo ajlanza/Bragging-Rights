@@ -172,7 +172,7 @@ const data = {
       },
       {
         "id": "5",
-        "nickname": "Afffogato",
+        "nickname": "Affogato",
         "firstName": "Amos",
         "lastName": "Echo",
         "activeBets": "",

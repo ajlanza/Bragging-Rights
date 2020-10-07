@@ -17,6 +17,14 @@ export default class Profile extends Component{
     this.context.setFriends(friends);
   }
 
+  handleAddFriend = ev => {
+    ev.preventDefault()
+    let friends = data.bettors[1].friends;
+    const username = ev.target.username.value;
+    friends.push(username);
+    alert(`adding ${username} to friends`);    
+  }
+
   selectWager(selectedWager){
     this.context.setSelectedWager({
       ...selectedWager
@@ -26,10 +34,10 @@ export default class Profile extends Component{
 
   render() {
     const { wagers, friends, user } = this.context;
-  
+    
     return(
       <div>
-        <h2>Username</h2>
+        <h2>{user.nickname}</h2>
           <img className ='profilePicture' src={user.avatar} alt='profile'/>
         <h3>Current Wagers</h3>
         <div className='betContainer'>
@@ -45,6 +53,15 @@ export default class Profile extends Component{
         <h3>Past Wagers</h3>
         <h3>Friends</h3>
         <div className='friendContainer'>
+          
+           
+            <form  className='addFriend friend' onSubmit={this.handleAddFriend}>
+              <h3>Add a friend</h3>
+              <label>Friend Username:</label>
+              <input required type='text' name='username' id='username'></input>
+              <br/>
+              <button type='submit'>submit</button>
+            </form>
           
           {friends.length > 0 ?
 

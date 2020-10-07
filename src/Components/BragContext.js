@@ -25,7 +25,7 @@ export class BragContextProvider extends Component {
     wagers: [],
     selectedWager: [],
     error: null,
-    authorized: null,
+    authorized: true,
   };
 
   setWagers = wagers => {

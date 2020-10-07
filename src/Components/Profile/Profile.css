@@ -23,8 +23,9 @@
   text-align: center;
   cursor: pointer;
 }
-.wager:hover{
+.wager:hover {
   background-color: darkcyan;
+  cursor: pointer;
 }
 
 .friend{
@@ -44,6 +45,14 @@
   padding-right: 10px;
 }
 
+form{
+  display: flex;
+  flex-direction: column;
+}
+label, input{
+  align-self: center;
+  margin: 0;
+}
 
 
 

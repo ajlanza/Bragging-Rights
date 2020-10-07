@@ -25,7 +25,7 @@ export default class LogIn extends Component {
         return(
           <div className='login'>
             <h3>Log In</h3>
-            <h4>For testing purposes you may use Username: "username" Password: "password" which are both case sensitive.</h4>
+            <h4>For testing purposes you may use Username: "Latte" Password: "password" which are both case sensitive.</h4>
             <form className='login' onSubmit={this.handleSubmit}>
               <div>
                 <label htmlFor='username'>Username:</label>
@@ -35,6 +35,7 @@ export default class LogIn extends Component {
                 <label htmlFor='password'>Password:  </label>
                 <input required type='password' name='password' id='password' placeholder='Password'/>
               </div>
+              <br/>
               <button type='submit' >Log In</button>
             </form>        
           </div>
