@@ -5,6 +5,7 @@ import Bets from '../Bets/Bets';
 import NewBet from '../NewBet/NewBet';
 import Profile from '../Profile/Profile';
 import LogIn from '../LogIn/LogIn';
+import SignUp from '../SignUp/SignUp';
 import Header from '../Header/Header';
 import './App.css';
 
@@ -25,6 +26,7 @@ function App() {
           <Route path='/new' component = { NewBet } />
           <Route path='/profile' component = { Profile } />
           <Route path='/login' component = { LogIn } />
+          <Route path='/signup' component = { SignUp } />
         </Switch>
       </main>
     </div>

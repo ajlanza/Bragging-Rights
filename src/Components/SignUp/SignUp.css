@@ -1,0 +1,10 @@
+.confirmed {
+    border: 2px solid green;
+  }
+  .unconfirmed{
+    border: 2px solid red;
+  }
+  input, textarea, select{
+    border: 2px solid black;
+    border-radius: 5px;
+  }

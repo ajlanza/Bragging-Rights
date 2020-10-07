@@ -80,11 +80,18 @@ export default class Nav extends Component {
                   </>
 
                   :
+                  <>
                   <li>
                     <Link to='/login' className='mobileNavLink>' onClick={this.handleMenuClick}>
-                      Log In/Sign Up
+                      Log In
                     </Link>
-                    </li>
+                  </li>
+                  <li>
+                    <Link to='/signup' className='mobileNavLink>' onClick={this.handleMenuClick}>
+                      Sign Up
+                    </Link>
+                  </li>
+                  </>
                   }
 
                 </ul>
@@ -115,9 +122,14 @@ export default class Nav extends Component {
           </Link>
           </>
           :
+          <>
           <Link to='/login' className='navLink>'>
-            Log In/Sign Up
+            Log In
           </Link>
+          <Link to='/signup' className='mobileNavLink>' onClick={this.handleMenuClick}>
+            Sign Up
+          </Link>
+          </>
           }  
           </div>
         </div>
