@@ -1,13 +1,23 @@
 import React, { Component } from 'react';
 
 const BragContext = React.createContext({
-  user: [],
+  user: {
+    id: null,
+    username: null,
+    avatar: 'club.png'
+  },
   friends: [],
-  wagers: [],
+  wagers: [{
+    id: null,
+    title: null,
+    start_date: null,
+    end_date: null,
+  }],
   selectedWager: [],
   error: null,
   authorized: null,
 
+  clearAll: () => {},
   setWagers: () => {},
   setSelectedWager: () => {},
   setFriends: () => {},
@@ -20,13 +30,32 @@ export default BragContext
 
 export class BragContextProvider extends Component {
   state = {
-    user: [],
+    user: {
+      id: null,
+      username: null,
+      avatar: 'club.png'
+    },
     friends: [],
-    wagers: [],
+    wagers: [{
+      id: null,
+      title: null,
+      start_date: null,
+      end_date: null,
+    }],
     selectedWager: [],
     error: null,
-    authorized: true,
+    authorized: false,
   };
+
+  clearAll = () => {
+    this.setState ({
+      user: {},
+      friends: [],
+      wagers: [],
+      selectedWager: [],
+      authorized: false
+    })
+  }
 
   setWagers = wagers => {
     this.setState({ wagers })
@@ -41,13 +70,17 @@ export class BragContextProvider extends Component {
   }
 
   setUser = user => {
-    this.setState({ user })
+    this.setState({
+       user: {
+         id: user.id,
+         username: user.username,
+         avatar: user.avatar
+       } 
+    })
   }
 
   setAuthorized = authorized => {
-    console.log('from context ', authorized)
     this.setState({ authorized })
-    
   }
 
   setError = error => {
@@ -67,6 +100,7 @@ export class BragContextProvider extends Component {
       user: this.state.user,
       selectedWager: this.state.selectedWager,
       authorized: this.state.authorized,
+      clearAll: this.clearAll,
       setError: this.setError,
       clearError: this.clearError,
       setWagers: this.setWagers,

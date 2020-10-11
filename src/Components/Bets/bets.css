@@ -60,13 +60,17 @@ li {
   width: 100%;
 }
 
-img {
+/* img {
   height: 1em;
   width: 1em;
   padding: 0;
   margin: 0;
- }
+ } */
 
 .wagerIcon{
   padding-right: 10px;
+  height: 1em;
+  width: 1em;
+  padding: 0;
+  margin: 0;
 }

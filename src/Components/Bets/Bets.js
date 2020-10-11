@@ -37,7 +37,7 @@ export default class Bets extends Component {
         :  
         <ul className='selected-bet'>
         <h2>{selectedWager.betName}</h2>
-          <li><img src='../beans.png' alt='coffee beans icon' className='wagerIcon'/>{selectedWager.wager}</li>
+          <li><img src='../chip32.png' alt='chip icon' className='wagerIcon'/>{selectedWager.wager}</li>
           {(selectedWager.startDate && selectedWager.endDate) ? <li><img src='../date.png' alt='date icon' className='wagerIcon'/>{selectedWager.startDate} to {selectedWager.endDate}</li> : ''}
           {selectedWager.bettors ? <li><img src='../friend.png' alt='friend icon' className='wagerIcon'/>{selectedWager.bettors.join(', ')}</li> : ''}
         </ul>

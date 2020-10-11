@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import BragContext from '../BragContext';
+import TokenService from '../../services/token-service';
 import './Nav.css';
 
 export default class Nav extends Component {
@@ -36,7 +37,8 @@ export default class Nav extends Component {
   }
 
   logOut = () => {
-    this.context.setAuthorized(false);
+    TokenService.clearAuthToken();
+    this.context.clearAll();
     this.setState({
       open: false
     })
@@ -59,11 +61,11 @@ export default class Nav extends Component {
                     </Link>
                   </li>
 
-                  {this.context.authorized 
+                  {TokenService.hasAuthToken()
                   ?
                   <>
                   <li>
-                    <Link to='/' onClick={this.logOut}>
+                    <Link to='/login' onClick={this.logOut}>
                       Logout
                     </Link>
                   </li>
@@ -107,10 +109,10 @@ export default class Nav extends Component {
           </Link>
           </div>
           <div className='otherLinks'>
-          {this.context.authorized 
+          {TokenService.hasAuthToken()
           ?
           <>
-          <Link to='/' onClick={() => this.logOut()}>
+          <Link to='/login' onClick={() => this.logOut()}>
             Logout
           </Link>
           

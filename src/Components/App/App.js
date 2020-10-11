@@ -7,6 +7,7 @@ import Profile from '../Profile/Profile';
 import LogIn from '../LogIn/LogIn';
 import SignUp from '../SignUp/SignUp';
 import Header from '../Header/Header';
+import RequireAuth from '../../HOC/auth';
 import './App.css';
 
 function App() {
@@ -22,9 +23,9 @@ function App() {
         <Switch>
           
           
-          <Route path='/bets' component = { Bets } />
-          <Route path='/new' component = { NewBet } />
-          <Route path='/profile' component = { Profile } />
+          <Route path='/bets' component = { RequireAuth(Bets) } />
+          <Route path='/new' component = { RequireAuth(NewBet) } />
+          <Route path='/profile' component = { RequireAuth(Profile) } />
           <Route path='/login' component = { LogIn } />
           <Route path='/signup' component = { SignUp } />
         </Switch>

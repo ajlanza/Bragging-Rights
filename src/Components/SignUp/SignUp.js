@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import BragContext from '../BragContext';
-
 import './SignUp.css';
+import AuthApiService from '../../services/auth-api-service';
+import SA from 'sweetalert2'
 
 
 export default class SignUp extends Component {
   static contextType = BragContext;
+
   state = {
     password: '',
     confirm: '',
-    match: false,
-    error: null
+    match: false
   }
 
   handleSubmit = e => {
@@ -22,9 +23,27 @@ export default class SignUp extends Component {
       username: username.value,
       password: password.value,
     }
-    alert(`User: "${user.username}" created`)
-    this.props.history.push({pathname: `/login` });
-      
+  
+    AuthApiService.postUser(user)
+      .then(user => {
+        username.value = ''
+        password.value = ''
+        SA.fire(
+          'Success',
+          'New account created',
+          'success'
+        )
+        this.props.history.push({ pathname: '/login', })
+      })
+      .catch(res => {
+        this.context.setError(res.error)
+        SA.fire({
+          icon: 'error',
+          title: this.context.error,
+          text: 'Please try again.'
+          
+        })
+      })          
   }
 
   confirmPassword = e => {

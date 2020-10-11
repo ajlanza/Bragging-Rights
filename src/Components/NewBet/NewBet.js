@@ -1,33 +1,59 @@
 import React, { Component } from 'react';
 import BragContext from '../BragContext';
-import data from '../../Assets/data';
+import Swal from 'sweetalert2';
+import AuthApiService from '../../services/auth-api-service';
 import './NewBet.css';
 
 export default class NewBet extends Component{
   static contextType = BragContext;
 
-  componentDidMount() {
-    let user = data.bettors[0];
-    let friends = data.bettors[0].friends;
-    let wagers = data.wagers;
-    this.context.clearError();
-    this.context.setUser(user);
-    this.context.setWagers(wagers);
-    this.context.setFriends(friends);
-  }
-
   handleSubmit = ev => {
     ev.preventDefault()
-    
     const title = ev.target.title.value;
-    const startDate = ev.target.startDate.value;
-    const endDate = ev.target.endDate.value;
-    const amount = ev.target.amount.value;
-    alert(`New Wager submitted: ${title} ${amount} ${startDate} ${endDate} `)    
+    let start_date;
+    let end_date; 
+    if(ev.target.startDate.value === ''){
+      start_date = new Date();
+    }
+    else {
+      start_date = ev.target.startDate.value;
+    }
+    if(ev.target.endDate.value === ''){
+      end_date = null;
+    }
+    else {
+      end_date = ev.target.endDate.value;
+    }
+    const wager = ev.target.amount.value;
+    const bettor1 = this.context.user.id;
+    const bettor2 = ev.target.bettors.value;
+    const newWager = { title, start_date, end_date, wager, bettor1, bettor2 };
+
+    if(bettor2 === '0'){
+      Swal.fire({
+        icon: 'error',
+        title: 'Chose who to bet.',
+        text: 'Please try again.'
+      })
+    }
+    else {
+    // Post the new wager
+    AuthApiService.postWager(newWager)
+    // Once new wager is posted, set context so it includes new wager
+    .then(() => {
+      AuthApiService.getWagers(this.context.user.id)
+      .then((data) => {
+        this.context.setWagers(data);
+        this.props.history.push('/profile');
+      })
+    })
+      .catch(this.context.setError);
+    } 
   }
 
   render(){
-    const { friends } = this.context
+    const { friends } = this.context;
+    
   
     return(
       <div>
@@ -35,9 +61,9 @@ export default class NewBet extends Component{
         <form className='new-bet-form' onSubmit={this.handleSubmit}>
           
           <label htmlFor='title'>Wager name: </label>
-          <input type='text' name='title' id='title' placeholder='Wager name' /> <br />
+          <input required type='text' name='title' id='title' placeholder='Wager name' /> <br />
           <label htmlFor='amount'>Amount: </label>
-          <input type='number' name='amount' id='amount' placeholder='2 cups of coffee'/> <br />
+          <input type='text' name='amount' id='amount' placeholder='2 cups of coffee'/> <br />
           <label htmlFor='startDate'>Start Date: </label>
           <input type='date' name='startDate' id='startDate' /> <br />
           <label htmlFor='endDate'>End Date: </label>
@@ -46,17 +72,19 @@ export default class NewBet extends Component{
           
           {friends.length > 0 
           ? 
-          <select name='bettors' id='bettors'>
+          <select required name='bettors' id='bettors' >
+            <option value='0'>Select friend</option>
           {friends.map(friend => 
             <option 
-              value={friend} 
-              key={friend}
-              name={data.bettors[friend].nickname}
-              id={data.bettors[friend].nickname}
+              value={friend.friend_id} 
+              key={friend.friend_id}
+              name={friend.friend_id}
+              id={friend.friend_id}
               >
-              {data.bettors[friend].nickname}
+              {friend.username}
               </option>)}
               </select>
+              
           : <p className='noValues'>No friends set up yet.</p>}
           
           <button type='submit' >Submit</button>

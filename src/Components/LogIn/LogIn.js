@@ -1,31 +1,72 @@
 import React, { Component } from 'react';
-import data from '../../Assets/data';
+import jwt_decode from 'jwt-decode';
 import BragContext from '../BragContext';
+import AuthApiService from '../../services/auth-api-service';
+import TokenService from '../../services/token-service';
+import SA from 'sweetalert2';
 
 export default class LogIn extends Component {
   static contextType = BragContext;
 
   handleSubmit = ev => {
     ev.preventDefault()
-    
-    const username = ev.target.username.value;
-    const password = ev.target.password.value;
-    
-    const correctPassword = data.bettors[0].password;
-    const correctUsername = data.bettors[0].nickname;
+    this.context.clearError();
+    const { username, password } = ev.target;
 
-    if(username === correctUsername && password === correctPassword){
-      this.context.setAuthorized(true);
-      this.props.history.push('/bets');
-    }
+    AuthApiService.postLogin({
+      username: username.value,
+      password: password.value,
+    })
+      .then(res => {
+        username.value = ''
+        password.value = ''
+        TokenService.saveAuthToken(res.authToken)
+  
+        const token = TokenService.getAuthToken();
+        const decoded = jwt_decode(token);
+        const newUser = {
+          id: decoded.user_id,
+          username: decoded.sub,
+          avatar: decoded.avatar
+        };
+        this.context.setUser(newUser);
+        this.setAll();
+        this.props.history.push('/profile');
+
+      })
+      
+      .catch(res => {
+        this.context.setError(res.error)
+        SA.fire({
+          icon: 'error',
+          title: res.error,
+          text: 'Please try again.'
+        })
+      })
+  }
+
+  setAll() {
+    AuthApiService.getFriends(this.context.user.id)
+      .then((data) => {
+        if(data !== 'No friends set up.'){
+          this.context.setFriends(data);
+        }
+      })
+      .catch(this.context.setError);
+    AuthApiService.getWagers(this.context.user.id)
+      .then((data) => {
+        this.context.setWagers(data);
+      })
+      .catch(this.context.setError);
     
   }
     render() {
-    
+  
         return(
           <div className='login'>
+            
             <h3>Log In</h3>
-            <h4>For testing purposes you may use Username: "Latte" Password: "password" which are both case sensitive.</h4>
+            {/* <h4>For testing purposes you may use Username: "Username" Password: "password" which are both case sensitive.</h4> */}
             <form className='login' onSubmit={this.handleSubmit}>
               <div>
                 <label htmlFor='username'>Username:</label>
