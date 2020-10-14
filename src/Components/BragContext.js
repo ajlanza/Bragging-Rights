@@ -23,6 +23,7 @@ const BragContext = React.createContext({
   pendingWagers: [],
   approvedFriends: [],
   pendingFriends: [],
+  awaitingFriends: [],
   selectedWager: [],
   error: null,
   authorized: null,
@@ -56,6 +57,7 @@ export class BragContextProvider extends Component {
     pendingWagers: [],
     approvedFriends: [],
     pendingFriends: [],
+    awaitingFriends: [],
     selectedWager: [],
     error: null,
     authorized: false,
@@ -112,6 +114,7 @@ export class BragContextProvider extends Component {
     console.log('set friends in context: ', friends)
     let pendingFriends = [];
     let approvedFriends = [];
+    let awaitingFriends = [];
   
     if(friends.length >0){
       friends.forEach(friend => {
@@ -121,16 +124,17 @@ export class BragContextProvider extends Component {
         if(friend.pending === true && friend.approved === false){
           pendingFriends.push(friend);
         }
+        if(friend.pending === true && friend.approved === true){
+          awaitingFriends.push(friend)
+        }
       })
       console.log('pending friends: ', pendingFriends);
       console.log('approved friends: ', approvedFriends);
+      console.log('awaiting friends: ', awaitingFriends)
       this.setState({
-        pendingFriends, approvedFriends
+        pendingFriends, approvedFriends, awaitingFriends, friends
       })
     }
-    this.setState({ friends });
-    console.log('state approved', approvedFriends);
-    console.log('state pending: ',pendingFriends);
   }
 
   setUser = user => {
@@ -165,6 +169,7 @@ export class BragContextProvider extends Component {
       friends: this.state.friends,
       approvedFriends: this.state.approvedFriends,
       pendingFriends: this.state.pendingFriends,
+      awaitingFriends: this.state.awaitingFriends,
       user: this.state.user,
       selectedWager: this.state.selectedWager,
       authorized: this.state.authorized,

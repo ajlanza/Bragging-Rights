@@ -92,7 +92,6 @@ export default class Profile extends Component{
   }
 
   handleUpdateWager(wager_id, wager_status){
-    console.log('handle approve wager id: ', wager_id)
     let wager = {
       wager_id,
       wager_status
@@ -108,7 +107,7 @@ export default class Profile extends Component{
   }
 
   render() {
-    let { approvedWagers, pendingWagers, friends, user } = this.context;
+    let { approvedWagers, pendingWagers, approvedFriends, awaitingFriends, pendingFriends, friends, user } = this.context;
     console.log('profile render');
     return(
       <div>
@@ -162,37 +161,41 @@ export default class Profile extends Component{
               <input required type='text' name='username' id='username'></input>
               <br/>
               <button type='submit'>Submit</button>
-            </form>
-          {friends.length > 0 
-          ? friends.map(friend => 
+            </form>           
+          {approvedFriends.length > 0
+          ? approvedFriends.map(friend => 
             <ul className='friend' key={friend.username}>
               <li>{friend.username}</li>
               <li><img className ='friendAvatar' src={friend.avatar} alt='avatar'/></li>
-              {/* Friend Approved */}
-              {friend.pending === false && friend.approved === true 
-            ? ''
-            // Request received and pending, needs approval or denial
-            : friend.pending === true && friend.approved === false
-              ? <>
+            </ul>)
+          : ''      
+          }
+          </div>
+          {pendingFriends.length > 0 || awaitingFriends.length > 0
+          ? <><h3>Pending Friends</h3>
+            <div className='friendContainer'>
+            {pendingFriends.length > 0 
+            ? pendingFriends.map(friend => 
+              <ul className='friend' key={friend.username}>
+                <li>{friend.username}</li>
+                <li><img className ='friendAvatar' src={friend.avatar} alt='avatar'/></li>
                 <li>
                   <button onClick={() => this.handleUpdateFriendship(friend.friend_id, 'approve')}>approve</button> 
                   <button onClick={() => this.handleUpdateFriendship(friend.friend_id, 'deny')}>deny</button>
                 </li>
-                </>
-              // Friend request initiated but hasn't been approved
-              : friend.pending === true && friend.approved === true
-                ? <li>Pending approval</li>
-                  // Friend request denied
-                : friend.pending === false && friend.approved === false
-                  ? <button>Delete request?</button>
-                  : <li>keep testing</li>
-            }
-            
-          </ul>)
-          : ''}
-
-         
-        </div>
+              </ul>)
+            : ''}
+            {awaitingFriends.length > 0
+            ? awaitingFriends.map(friend => 
+              <ul className='friend' key={friend.username}>
+                <li>{friend.username}</li>
+                <li><img className ='friendAvatar' src={friend.avatar} alt='avatar'/></li>
+                <li>Pending approval</li>
+              </ul>)
+            : ''}
+            </div></>
+          : ''      
+          }
       </div>
     )
   }
