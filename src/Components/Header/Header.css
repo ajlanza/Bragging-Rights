@@ -1,7 +1,8 @@
 .logo{
   margin-top: 40px;
-    
     pointer-events: none;
+    position: relative;
+    z-index: -1;
   }
 
 
