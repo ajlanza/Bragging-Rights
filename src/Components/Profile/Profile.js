@@ -9,11 +9,11 @@ export default class Profile extends Component{
   static contextType = BragContext;
 
   state = {
-    hasMatch: false
+    hasMatch: false,
   }
-  componentDidMount() {
-    this.context.clearError();
-  }
+  // componentDidMount() {
+  //   this.context.clearError();
+  // }
 
   checkHasMatch = ev => {
     ev.preventDefault()
@@ -38,11 +38,11 @@ export default class Profile extends Component{
       }
     }
     if(!this.state.match){
-      this.handleAddFriend(username)
+      this.addFriendRequest(username)
     }
   }
 
-  handleAddFriend(username) {
+  addFriendRequest(username) {
     let newFriendship = {
       user_id: this.context.user.id,
       friend_name: username
@@ -65,7 +65,23 @@ export default class Profile extends Component{
         })
       })
     
-      .catch(this.context.setError); 
+      // .catch(this.context.setError); 
+  }
+  
+  handleUpdateFriendship(friend, action) {
+    let friendship = {
+      user_id: this.context.user.id,
+      friend_id: friend,
+      action
+    }
+    AuthApiService.updateFriend(friendship)
+      .then(() => {
+         AuthApiService.getFriends(this.context.user.id)
+          .then(data => {
+            this.context.setFriends(data);
+          })
+      })
+      .catch(this.context.setError)
   }
 
   selectWager(selectedWager){
@@ -75,54 +91,111 @@ export default class Profile extends Component{
     this.props.history.push('/bets')
   }
 
-  render() {
-    let { wagers, friends, user } = this.context;
+  handleUpdateWager(wager_id, wager_status){
+    let wager = {
+      wager_id,
+      wager_status
+    }
+    AuthApiService.updateWager(wager)
+      .then(() => {
+        AuthApiService.getWagers(this.context.user.id)
+          .then(data => {
+            this.context.setWagers(data);
+          })
+      })
+      .catch(this.context.setError)
+  }
 
+  render() {
+    let { approvedWagers, pendingWagers, approvedFriends, awaitingFriends, pendingFriends, friends, user } = this.context;
+    console.log('profile render');
     return(
       <div>
         <h2>{user.username}</h2>
           <img className ='profilePicture' src={user.avatar} alt='profile'/>
-        <h3>Current Wagers</h3>
-        <div className='betContainer'>
+          {approvedWagers.length > 0 
+            ? <>
+              <h3>Current Wagers</h3>
+              <div className='betContainer'>
+              {approvedWagers.map(bet =>
+                <div key={bet.id} className='wager' onClick={() => this.selectWager(bet)}> 
+                <ul>
+                  <li>{bet.title}</li>
+                  <li><img src='../date.png' alt='date icon' className='wagerIcon'/>{bet.start_date}</li>
+                  <li><img src='../chip32.png' alt='chip icon' className='wagerIcon'/>{bet.wager}</li>
+                </ul>
+                </div>
+              )}
+              </div></>
+            : <>
+              <h3>No active wagers</h3>
+              <button>Create Wager</button>
+              </> 
+            }
+        
+          {pendingWagers.length > 0 
+          ? <>
+            <h3>Pending Wagers</h3>
+            <div className='betContainer'>
+              {pendingWagers.map(bet => 
+                <div key={bet.id} className='wager'>
+                  <ul>
+                    <li>{bet.title}</li>
+                    <li><img src='../date.png' alt='date icon' className='wagerIcon'/>{bet.start_date}</li>
+                    <li><img src='../chip32.png' alt='chip icon' className='wagerIcon'/>{bet.wager}</li>
+                    <li><button onClick={() => this.handleUpdateWager(bet.id, 'approved')}>Approve</button>
+                        <button onClick={() => this.handleUpdateWager(bet.id, 'denied')}>Deny</button>
+                    </li>
+                  </ul>
+                </div>  
+              )}
+            </div>
+            </>
+          : '' }
           
-          
-          {wagers.length > 0 
-          ? wagers.map(bet =>
-          <div key={bet.id} className='wager' onClick={() => this.selectWager(bet)}> 
-          <ul>
-            <li>{bet.title}</li>
-            <li><img src='../date.png' alt='date icon' className='wagerIcon'/>{bet.start_date}</li>
-            <li><img src='../chip32.png' alt='chip icon' className='wagerIcon'/>{bet.wager}</li>
-          </ul>
-          </div>)
-          : <p>No wagers set up yet</p>}
-        </div>
-
-
-
-        {/* <h3>Past Wagers</h3> */}
-
         <h3>Friends</h3>
         <div className='friendContainer'>
-          
             <form  className='addFriend friend' onSubmit={this.checkHasMatch}>
               <h3>Add a friend</h3>
               <label>Friend Username:</label>
               <input required type='text' name='username' id='username'></input>
               <br/>
-              <button type='submit'>submit</button>
-            </form>
-          
-          {friends.length > 0 
-          ? friends.map(friend => 
-          <ul className='friend' key={friend.username}>
-            <li>{friend.username}</li>
-            <li><img className ='friendAvatar' src={friend.avatar} alt='avatar'/></li>
-          </ul>)
-          : <p>Friends not set up yet.</p>}
-
-         
-        </div>
+              <button type='submit'>Submit</button>
+            </form>           
+          {approvedFriends.length > 0
+          ? approvedFriends.map(friend => 
+            <ul className='friend' key={friend.username}>
+              <li>{friend.username}</li>
+              <li><img className ='friendAvatar' src={friend.avatar} alt='avatar'/></li>
+            </ul>)
+          : ''      
+          }
+          </div>
+          {pendingFriends.length > 0 || awaitingFriends.length > 0
+          ? <><h3>Pending Friends</h3>
+            <div className='friendContainer'>
+            {pendingFriends.length > 0 
+            ? pendingFriends.map(friend => 
+              <ul className='friend' key={friend.username}>
+                <li>{friend.username}</li>
+                <li><img className ='friendAvatar' src={friend.avatar} alt='avatar'/></li>
+                <li>
+                  <button onClick={() => this.handleUpdateFriendship(friend.friend_id, 'approve')}>approve</button> 
+                  <button onClick={() => this.handleUpdateFriendship(friend.friend_id, 'deny')}>deny</button>
+                </li>
+              </ul>)
+            : ''}
+            {awaitingFriends.length > 0
+            ? awaitingFriends.map(friend => 
+              <ul className='friend' key={friend.username}>
+                <li>{friend.username}</li>
+                <li><img className ='friendAvatar' src={friend.avatar} alt='avatar'/></li>
+                <li>Pending approval</li>
+              </ul>)
+            : ''}
+            </div></>
+          : ''      
+          }
       </div>
     )
   }

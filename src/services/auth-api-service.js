@@ -57,7 +57,22 @@ const AuthApiService = {
           : res.json()
       )
   },
-  
+
+  updateFriend(friendship) {
+    return fetch(`${config.API_ENDPOINT}/api/friends`, {
+      method: 'PATCH',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(friendship),
+    })
+      .then(res =>
+        (!res.ok)
+         ? res.json().then(e => Promise.reject(e))
+         : res.json()
+      )
+  },
+
   getWagers(user) {
     return fetch(`${config.API_ENDPOINT}/api/mywagers/${user}`, {
       method: 'GET',
@@ -85,6 +100,21 @@ const AuthApiService = {
       )
 
   },
+
+  updateWager(wager) {
+    return fetch(`${config.API_ENDPOINT}/api/wagers`, {
+      method: 'PATCH',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(wager),
+    })
+      .then(res =>
+        (!res.ok)
+         ? res.json().then(e => Promise.reject(e))
+         : res.json()
+      )
+  }
 }
 
 export default AuthApiService
