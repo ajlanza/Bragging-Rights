@@ -27,7 +27,8 @@ export default class NewBet extends Component{
     const wager = ev.target.amount.value;
     const bettor1 = this.context.user.id;
     const bettor2 = ev.target.bettors.value;
-    const newWager = { title, start_date, end_date, wager, bettor1, bettor2 };
+    const wager_status = 'pending bettor2'
+    const newWager = { title, start_date, end_date, wager, bettor1, bettor2, wager_status };
 
     if(bettor2 === '0'){
       Swal.fire({
@@ -52,9 +53,8 @@ export default class NewBet extends Component{
   }
 
   render(){
-    const { friends } = this.context;
+    const { approvedFriends } = this.context;
     
-  
     return(
       <div>
         <h2>New Bet</h2>
@@ -70,11 +70,11 @@ export default class NewBet extends Component{
           <input type='date' name='endDate' id='endDate' /> <br />
           <label htmlFor='bettors'>Friends: </label>
           
-          {friends.length > 0 
+          {approvedFriends.length > 0 
           ? 
           <select required name='bettors' id='bettors' >
             <option value='0'>Select friend</option>
-          {friends.map(friend => 
+          {approvedFriends.map(friend => 
             <option 
               value={friend.friend_id} 
               key={friend.friend_id}

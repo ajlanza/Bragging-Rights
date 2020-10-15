@@ -105,7 +105,7 @@ export default class Nav extends Component {
         <div className='bigScreenContainer' >
           <div className='homeLink'>
           <Link to='/' className='navLink' >
-            Home{"  "}
+            <img src='../home.png' alt='home' className='homeIcon' />
           </Link>
           </div>
           <div className='otherLinks'>

@@ -1,74 +1,14 @@
-import React, { Component } from 'react';
-import SA from 'sweetalert2';
-import AuthApiService from '../../services/auth-api-service';
 import BragContext from '../BragContext';
-import './Profile.css';
-import Wagers from '../Wagers/Wagers';
+import React, { Component } from 'react';
+import AuthApiService from '../../services/auth-api-service';
+import Swal from 'sweetalert2';
 
-
-export default class Profile extends Component{
+export default class Friends extends Component {
   static contextType = BragContext;
-
-  state = {
-    hasMatch: false,
-  }
-  // componentDidMount() {
-  //   this.context.clearError();
-  // }
-
-  checkHasMatch = ev => {
-    ev.preventDefault()
-    this.setState({ match: false })
-    const username = ev.target.username.value;
-    if(this.context.user.username === username){
-      SA.fire({
-        icon: 'error',
-        title: `Can't add yourself as a friend.`,
-        text: 'Please try again.'
-      });
-    }
-    for(let i = 0; i < this.context.friends.length; i++){
-      if (username === this.context.friends[i].username){
-        SA.fire({
-          icon: 'error',
-          title: `${username} is already a friend.`,
-          text: 'Please try again.'
-        });
-        this.setState({ match: true})
-        return;
-      }
-    }
-    if(!this.state.match){
-      this.addFriendRequest(username)
-    }
-  }
-
-  addFriendRequest(username) {
-    let newFriendship = {
-      user_id: this.context.user.id,
-      friend_name: username
-    }
-    // Add the friend
-    AuthApiService.addFriend(newFriendship)
-      .then(res => {
-        // Refresh profile with new friend
-        AuthApiService.getFriends(this.context.user.id)
-          .then((data) => {
-            this.context.setFriends(data);
-          })
-      })
-      .catch(res => {
-        this.context.setError(res.error.message)
-        SA.fire({
-          icon: 'error',
-          title: this.context.error,
-          text: 'Please try again.'
-        })
-      })
-    
-      // .catch(this.context.setError); 
-  }
   
+  componentDidMount(){
+    console.log('friends componentDidMount context: ', this.context);
+  }
   handleUpdateFriendship(friend, action) {
     let friendship = {
       user_id: this.context.user.id,
@@ -83,18 +23,40 @@ export default class Profile extends Component{
           })
       })
       .catch(this.context.setError)
-  } 
+  }
 
-  render() {
-    let { approvedFriends, awaitingFriends, pendingFriends, user } = this.context;
-    console.log('profile render');
+  addFriendRequest(username) {
+    let newFriendship = {
+      user_id: this.context.user.id,
+      friend_name: username
+    }
+    console.log('user from friend', this.context.user)
+    console.log('friend name', username)
+    console.log('new friendship ', newFriendship)
+    // Add the friend
+    AuthApiService.addFriend(newFriendship)
+      .then(res => {
+        // Refresh profile with new friend
+        AuthApiService.getFriends(this.context.user.id)
+          .then((data) => {
+            this.context.setFriends(data);
+          })
+      })
+      .catch(res => {
+        this.context.setError(res.error.message)
+        Swal.fire({
+          icon: 'error',
+          title: this.context.error,
+          text: 'Please try again.'
+        })
+      }) 
+  }
+
+  render(){
+    let {approvedFriends, pendingFriends, awaitingFriends} = this.context;
+    console.log(this.context.user.id)
     return(
-      <div>
-        <h2>{user.username}</h2>
-          <img className ='profilePicture' src={user.avatar} alt='profile'/>
-
-          <Wagers history={this.props.history}/>          
-            
+        <div>
         <h3>Friends</h3>
         <div className='friendContainer'>
             <form  className='addFriend friend' onSubmit={this.checkHasMatch}>
@@ -138,7 +100,7 @@ export default class Profile extends Component{
             </div></>
           : ''      
           }
-      </div>
+          </div>
     )
   }
 }

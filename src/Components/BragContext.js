@@ -20,7 +20,8 @@ const BragContext = React.createContext({
     end_date: null,
   }],
   approvedWagers: [],
-  pendingWagers: [],
+  needsMyApproval: [],
+  awaitingOtherBettor: [],
   approvedFriends: [],
   pendingFriends: [],
   awaitingFriends: [],
@@ -47,14 +48,10 @@ export class BragContextProvider extends Component {
       avatar: 'club.png'
     },
     friends: [],
-    wagers: [{
-      id: null,
-      title: null,
-      start_date: null,
-      end_date: null,
-    }],
+    wagers: [],
     approvedWagers: [],
-    pendingWagers: [],
+    needsMyApproval: [],
+    awaitingOtherBettor: [],
     approvedFriends: [],
     pendingFriends: [],
     awaitingFriends: [],
@@ -67,30 +64,40 @@ export class BragContextProvider extends Component {
     this.setState ({
       user: {},
       friends: [],
+      approvedFriends: [],
+      pendingFriends: [],
+      awaitingFriends: [],
       wagers: [],
       approvedWagers: [],
-      pendingWagers: [],
+      needsMyApproval: [],
+      awaitingOtherBettor: [],
       selectedWager: [],
       authorized: false
     })
   }
 
   setWagers = wagers => {
-    let pendingWagers = [];
     let approvedWagers = [];
-  
-    if(wagers.length >0){
+    let needsMyApproval = [];
+    let awaitingOtherBettor = [];
+    console.log('wagers context: ',wagers)
+    if(wagers.length > 0){
       wagers.forEach(bet => {
         if(bet.wager_status === 'approved'){
           approvedWagers.push(bet);
         }
-        if(bet.wager_status === 'pending bettor2'){
-          pendingWagers.push(bet);
+        if(bet.wager_status === 'pending bettor2' && bet.bettor2 === this.state.user.id){
+          needsMyApproval.push(bet);
+        }
+        if(bet.wager_status === 'pending bettor2' && bet.bettor1 === this.state.user.id){
+          awaitingOtherBettor.push(bet);
         }
       })
       this.setState({
-        pendingWagers, approvedWagers
+        approvedWagers, needsMyApproval, awaitingOtherBettor
       })
+      console.log('from context state pending: ',this.state.pendingWagers);
+      console.log('from context state approved: ',this.state.approvedWagers);
     }
   }  
 
@@ -165,7 +172,8 @@ export class BragContextProvider extends Component {
       error: this.state.error,
       wagers: this.state.wagers,
       approvedWagers: this.state.approvedWagers,
-      pendingWagers: this.state.pendingWagers,
+      needsMyApproval: this.state.needsMyApproval,
+      awaitingOtherBettor: this.state.awaitingOtherBettor,
       friends: this.state.friends,
       approvedFriends: this.state.approvedFriends,
       pendingFriends: this.state.pendingFriends,

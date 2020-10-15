@@ -7,6 +7,11 @@
     padding: 0;
   }
   
+.homeIcon{
+   height: 1.2em;
+   width: 1.2em;
+   margin-left: 10px;
+}
   .hideThis {
     background-color: snow;
     position: fixed;
