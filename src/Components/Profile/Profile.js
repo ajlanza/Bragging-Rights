@@ -4,14 +4,15 @@ import AuthApiService from '../../services/auth-api-service';
 import BragContext from '../BragContext';
 import './Profile.css';
 import Wagers from '../Wagers/Wagers';
+import Friends from '../Friends/Friends';
 
 
 export default class Profile extends Component{
   static contextType = BragContext;
 
-  state = {
-    hasMatch: false,
-  }
+  // state = {
+  //   hasMatch: false,
+  // }
   // componentDidMount() {
   //   this.context.clearError();
   // }
@@ -86,16 +87,16 @@ export default class Profile extends Component{
   } 
 
   render() {
-    let { approvedFriends, awaitingFriends, pendingFriends, user } = this.context;
-    console.log('profile render');
+    let {  user } = this.context;
+    // console.log('profile render');
     return(
       <div>
         <h2>{user.username}</h2>
           <img className ='profilePicture' src={user.avatar} alt='profile'/>
 
           <Wagers history={this.props.history}/>          
-            
-        <h3>Friends</h3>
+          <Friends />
+        {/* <h3>Friends</h3>
         <div className='friendContainer'>
             <form  className='addFriend friend' onSubmit={this.checkHasMatch}>
               <h3>Add a friend</h3>
@@ -137,7 +138,7 @@ export default class Profile extends Component{
             : ''}
             </div></>
           : ''      
-          }
+          } */}
       </div>
     )
   }

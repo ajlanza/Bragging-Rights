@@ -6,8 +6,35 @@ import Swal from 'sweetalert2';
 export default class Friends extends Component {
   static contextType = BragContext;
   
-  componentDidMount(){
-    console.log('friends componentDidMount context: ', this.context);
+  state = {
+    hasMatch: false,
+  }
+
+  checkHasMatch = ev => {
+    ev.preventDefault()
+    this.setState({ match: false })
+    const username = ev.target.username.value;
+    if(this.context.user.username === username){
+      Swal.fire({
+        icon: 'error',
+        title: `Can't add yourself as a friend.`,
+        text: 'Please try again.'
+      });
+    }
+    for(let i = 0; i < this.context.friends.length; i++){
+      if (username === this.context.friends[i].username){
+        Swal.fire({
+          icon: 'error',
+          title: `${username} is already a friend.`,
+          text: 'Please try again.'
+        });
+        this.setState({ match: true})
+        return;
+      }
+    }
+    if(!this.state.match){
+      this.addFriendRequest(username)
+    }
   }
   handleUpdateFriendship(friend, action) {
     let friendship = {
@@ -30,9 +57,9 @@ export default class Friends extends Component {
       user_id: this.context.user.id,
       friend_name: username
     }
-    console.log('user from friend', this.context.user)
-    console.log('friend name', username)
-    console.log('new friendship ', newFriendship)
+    // console.log('this.context.user from addFriendRequest', this.context.user);
+    // console.log('friend name', username);
+    // console.log('new friendship ', newFriendship);
     // Add the friend
     AuthApiService.addFriend(newFriendship)
       .then(res => {
@@ -54,10 +81,11 @@ export default class Friends extends Component {
 
   render(){
     let {approvedFriends, pendingFriends, awaitingFriends} = this.context;
-    console.log(this.context.user.id)
+    // console.log(this.context.user.id)
+    
     return(
-        <div>
-        <h3>Friends</h3>
+      <>
+      <h3>Friends</h3>
         <div className='friendContainer'>
             <form  className='addFriend friend' onSubmit={this.checkHasMatch}>
               <h3>Add a friend</h3>
@@ -75,6 +103,7 @@ export default class Friends extends Component {
           : ''      
           }
           </div>
+
           {pendingFriends.length > 0 || awaitingFriends.length > 0
           ? <><h3>Pending Friends</h3>
             <div className='friendContainer'>
@@ -100,7 +129,8 @@ export default class Friends extends Component {
             </div></>
           : ''      
           }
-          </div>
+          </>
     )
+    
   }
 }

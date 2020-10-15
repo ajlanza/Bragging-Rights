@@ -17,7 +17,7 @@ export default class Bets extends Component {
 
   render() {
     const { wagers, selectedWager } = this.context;
-    console.log('bets render', selectedWager)
+    // console.log('bets render', selectedWager)
     return(
       <div className='bets'>    
 
