@@ -1,29 +1,23 @@
-.new-bet-form{
+.newBetForm{
+    display: flex;
+    flex-direction: column;
     background-color: lightcyan;
-    justify-content: left;
 }
 
-label{
-    /* display: inline-block; */
-    display: block;
-    margin-left: 35px;
-    /* width: 49%;
-    height: 1em; */
-    text-align: left;   
-    /* border: 2px solid black; 
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-    background-color: lightgray; */
-}
-input, select{
-  /* display: inline-block;  */
+label{ 
   display: block;
-  margin-left: 35px;
-  /* width: 48%; 
-  height: 1em; */
+  text-align: left;  
 }
+input, select, option{
+
+display: block;
+text-align: left;
+
+width: 200px;
+}
+
 .noValues{
-  text-align: left;
-  margin-left: 35px;
-  font-size: 16px;
+text-align: left;
+margin-left: 35px;
+font-size: 16px;
 }

@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-// import SA from 'sweetalert2';
 import AuthApiService from '../../services/auth-api-service';
 import BragContext from '../BragContext';
 import { Link } from 'react-router-dom';
-
-
 
 export default class Wagers extends Component{
   static contextType = BragContext;
@@ -33,7 +30,17 @@ export default class Wagers extends Component{
 
   render() {
     let { approvedWagers, needsMyApproval, awaitingOtherBettor } = this.context;
-    
+    let btnLabels = [
+      {
+        label: 'Approve',
+        parameter: 'approved'
+      },
+      {
+        label: 'Deny',
+        parameter: 'denied'
+      },
+    ];
+
     return(
       <div>
       {/* If there are live wagers display them */}
@@ -72,9 +79,10 @@ export default class Wagers extends Component{
                 <li>{bet.title}</li>
                 <li><img src='../date.png' alt='date icon' className='wagerIcon'/>{bet.start_date}</li>
                 <li><img src='../chip32.png' alt='chip icon' className='wagerIcon'/>{bet.wager}</li>
-                <li><button onClick={() => this.handleUpdateWager(bet.id, 'approved')}>Approve</button>
-                    <button onClick={() => this.handleUpdateWager(bet.id, 'denied')}>Deny</button>
-                </li>
+                <li>{btnLabels.map(btnLabel => 
+                  <button key={btnLabel.label}onClick={() => this.handleUpdateWager(bet.id, btnLabel.parameter)}>{btnLabel.label}</button>
+                )}</li>
+               
               </ul>
             </div>  
           )}
@@ -91,7 +99,7 @@ export default class Wagers extends Component{
                 <li>{bet.title}</li>
                 <li><img src='../date.png' alt='date icon' className='wagerIcon'/>{bet.start_date}</li>
                 <li><img src='../chip32.png' alt='chip icon' className='wagerIcon'/>{bet.wager}</li>
-                <li>Pending friend approval.</li>
+                <li>Pending approval.</li>
               </ul>
             </div>  
           )}

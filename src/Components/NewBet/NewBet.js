@@ -58,10 +58,10 @@ export default class NewBet extends Component{
     return(
       <div>
         <h2>New Bet</h2>
-        <form className='new-bet-form' onSubmit={this.handleSubmit}>
+        <form className='newBetForm' onSubmit={this.handleSubmit}>
           
-          <label htmlFor='title'>Wager name: </label>
-          <input required type='text' name='title' id='title' placeholder='Wager name' /> <br />
+          <label className='newBet' htmlFor='title'>Wager name: </label>
+          <input className='newBet' required type='text' name='title' id='title' placeholder='Wager name' /> <br />
           <label htmlFor='amount'>Amount: </label>
           <input type='text' name='amount' id='amount' placeholder='2 cups of coffee'/> <br />
           <label htmlFor='startDate'>Start Date: </label>

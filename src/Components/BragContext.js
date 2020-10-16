@@ -80,7 +80,6 @@ export class BragContextProvider extends Component {
     let approvedWagers = [];
     let needsMyApproval = [];
     let awaitingOtherBettor = [];
-    // console.log('wagers context: ',wagers)
     if(wagers.length > 0){
       wagers.forEach(bet => {
         if(bet.wager_status === 'approved'){
@@ -96,13 +95,10 @@ export class BragContextProvider extends Component {
       this.setState({
         approvedWagers, needsMyApproval, awaitingOtherBettor
       })
-      // console.log('from context state pending: ',this.state.pendingWagers);
-      // console.log('from context state approved: ',this.state.approvedWagers);
     }
   }  
 
   setSelectedWager = selectedWager => {
-    // console.log(selectedWager);
     let betAgainst = selectedWager.bettor1;
     if(selectedWager.bettor1 === this.state.user.id){
       betAgainst = selectedWager.bettor2
@@ -113,12 +109,10 @@ export class BragContextProvider extends Component {
       }
     }
     selectedWager = { ...selectedWager, betAgainst};
-    // console.log('new selected Wager: ', selectedWager);
     this.setState({ selectedWager })
   }
 
   setFriends = friends => {
-    // console.log('set friends in context: ', friends)
     let pendingFriends = [];
     let approvedFriends = [];
     let awaitingFriends = [];
@@ -135,9 +129,6 @@ export class BragContextProvider extends Component {
           awaitingFriends.push(friend)
         }
       })
-      // console.log('pending friends: ', pendingFriends);
-      // console.log('approved friends: ', approvedFriends);
-      // console.log('awaiting friends: ', awaitingFriends);
       this.setState({
         pendingFriends, approvedFriends, awaitingFriends, friends
       })

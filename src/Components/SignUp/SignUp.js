@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import BragContext from '../BragContext';
 import './SignUp.css';
 import AuthApiService from '../../services/auth-api-service';
-import SA from 'sweetalert2'
+import Swal from 'sweetalert2'
 
 
 export default class SignUp extends Component {
@@ -28,7 +28,7 @@ export default class SignUp extends Component {
       .then(user => {
         username.value = ''
         password.value = ''
-        SA.fire(
+        Swal.fire(
           'Success',
           'New account created',
           'success'
@@ -37,7 +37,7 @@ export default class SignUp extends Component {
       })
       .catch(res => {
         this.context.setError(res.error)
-        SA.fire({
+        Swal.fire({
           icon: 'error',
           title: this.context.error,
           text: 'Please try again.'

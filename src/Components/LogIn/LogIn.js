@@ -3,7 +3,7 @@ import jwt_decode from 'jwt-decode';
 import BragContext from '../BragContext';
 import AuthApiService from '../../services/auth-api-service';
 import TokenService from '../../services/token-service';
-import SA from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 export default class LogIn extends Component {
   static contextType = BragContext;
@@ -37,7 +37,7 @@ export default class LogIn extends Component {
       
       .catch(res => {
         this.context.setError(res.error)
-        SA.fire({
+        Swal.fire({
           icon: 'error',
           title: res.error,
           text: 'Please try again.'

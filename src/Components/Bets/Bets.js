@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import BragContext from '../BragContext';
+import { Link } from 'react-router-dom';
 import './bets.css';
 
 export default class Bets extends Component {
@@ -17,7 +18,7 @@ export default class Bets extends Component {
 
   render() {
     const { wagers, selectedWager } = this.context;
-    // console.log('bets render', selectedWager)
+    
     return(
       <div className='bets'>    
 
@@ -44,10 +45,10 @@ export default class Bets extends Component {
         <h2><br/></h2>
         <ul className='bets-container'>
           <ul className='each-bet'>
-            <a href='/new'><li>Create new wager.</li></a>
+            <Link to='/new'><li>Create new wager.</li></Link>
           </ul>
           {wagers.map(wager => 
-            <ul className='each-bet' onClick={() => this.selectWager(wager)} key={wager._id}>
+            <ul className='each-bet' onClick={() => this.selectWager(wager)} key={wager.id}>
               <li>{wager.betName}</li>
               <li>Started: {wager.start_date}</li>
               <li>At stake: {wager.wager}</li>

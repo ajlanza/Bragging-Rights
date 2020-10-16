@@ -57,10 +57,6 @@ export default class Friends extends Component {
       user_id: this.context.user.id,
       friend_name: username
     }
-    // console.log('this.context.user from addFriendRequest', this.context.user);
-    // console.log('friend name', username);
-    // console.log('new friendship ', newFriendship);
-    // Add the friend
     AuthApiService.addFriend(newFriendship)
       .then(res => {
         // Refresh profile with new friend
@@ -81,7 +77,16 @@ export default class Friends extends Component {
 
   render(){
     let {approvedFriends, pendingFriends, awaitingFriends} = this.context;
-    // console.log(this.context.user.id)
+    let btnLabels = [
+      {
+        label: 'Approve',
+        parameter: 'approved'
+      },
+      {
+        label: 'Deny',
+        parameter: 'denied'
+      },
+    ];
     
     return(
       <>
@@ -112,10 +117,12 @@ export default class Friends extends Component {
               <ul className='friend' key={friend.username}>
                 <li>{friend.username}</li>
                 <li><img className ='friendAvatar' src={friend.avatar} alt='avatar'/></li>
-                <li>
-                  <button onClick={() => this.handleUpdateFriendship(friend.friend_id, 'approve')}>approve</button> 
-                  <button onClick={() => this.handleUpdateFriendship(friend.friend_id, 'deny')}>deny</button>
+                <li>{btnLabels.map(btnLabel => 
+                  <button onClick={() => this.handleUpdateFriendship(friend.friend_id, btnLabel.parameter)}>{btnLabel.label}</button>)}
                 </li>
+                  {/* <button onClick={() => this.handleUpdateFriendship(friend.friend_id, 'approve')}>approve</button> 
+                  <button onClick={() => this.handleUpdateFriendship(friend.friend_id, 'deny')}>deny</button> */}
+                
               </ul>)
             : ''}
             {awaitingFriends.length > 0

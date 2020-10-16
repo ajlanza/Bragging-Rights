@@ -20,9 +20,7 @@ function App() {
         <Header />    
       </header>
       <main>
-        <Switch>
-          
-          
+        <Switch>         
           <Route path='/bets' component = { RequireAuth(Bets) } />
           <Route path='/new' component = { RequireAuth(NewBet) } />
           <Route path='/profile' component = { RequireAuth(Profile) } />

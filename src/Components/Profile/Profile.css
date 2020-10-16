@@ -1,8 +1,16 @@
 
-.profilePicture, .friendAvatar {
-  height: 128px;
-  width: 128px;
+.profilePicture  {
+  height: 4em;
+  width: 4em;
   background-color: lightcyan;
+  border: 2px solid #010C1F;
+  border-radius: 100px;
+}
+
+.friendAvatar {
+  height: 4em;
+  width: 4em;
+  background-color: snow;
   border: 2px solid #010C1F;
   border-radius: 100px;
 }
@@ -50,7 +58,8 @@ form{
   flex-direction: column;
 }
 label, input{
-  align-self: center;
+  align-self: left;
+  text-align: left;
   margin: 0;
 }
 

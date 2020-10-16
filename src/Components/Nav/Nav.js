@@ -115,7 +115,6 @@ export default class Nav extends Component {
           <Link to='/login' onClick={() => this.logOut()}>
             Logout
           </Link>
-          
           <Link to='/new' className='navLink'>
             New Bet
           </Link>
