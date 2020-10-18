@@ -93,7 +93,7 @@ export class BragContextProvider extends Component {
         }
       })
       this.setState({
-        approvedWagers, needsMyApproval, awaitingOtherBettor
+        approvedWagers, needsMyApproval, awaitingOtherBettor, wagers
       })
     }
   }  

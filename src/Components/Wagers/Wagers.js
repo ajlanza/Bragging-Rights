@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import AuthApiService from '../../services/auth-api-service';
 import BragContext from '../BragContext';
 import { Link } from 'react-router-dom';
+import Helpers from '../../services/helpers';
 
 export default class Wagers extends Component{
   static contextType = BragContext;
@@ -28,6 +29,8 @@ export default class Wagers extends Component{
       .catch(this.context.setError)
   }
 
+  
+
   render() {
     let { approvedWagers, needsMyApproval, awaitingOtherBettor } = this.context;
     let btnLabels = [
@@ -40,6 +43,7 @@ export default class Wagers extends Component{
         parameter: 'denied'
       },
     ];
+    
 
     return(
       <div>
@@ -52,7 +56,7 @@ export default class Wagers extends Component{
             <div key={bet.id} className='wager' onClick={() => this.selectWager(bet)}> 
             <ul>
               <li>{bet.title}</li>
-              <li><img src='../date.png' alt='date icon' className='wagerIcon'/>{bet.start_date}</li>
+              <li><img src='../date.png' alt='date icon' className='wagerIcon'/>{Helpers.processDate(bet.start_date)}</li>
               <li><img src='../chip32.png' alt='chip icon' className='wagerIcon'/>{bet.wager}</li>
             </ul>
             </div>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import BragContext from '../BragContext';
 import { Link } from 'react-router-dom';
 import './bets.css';
+import Helpers from '../../services/helpers';
 
 export default class Bets extends Component {
   static contextType = BragContext;
@@ -15,6 +16,28 @@ export default class Bets extends Component {
       ...selectedWager
     })
   }
+
+  getFriendById(bettor1, bettor2) {
+    let user = this.context.user.id;
+    let needName = null;
+    let friendName;
+    console.log(user);
+    if(bettor1 !== user){
+      needName = bettor1;
+      console.log('not bettor1: needname: ');
+    } else if(bettor2 !== user){
+      needName = bettor2;
+      console.log('not bettor2, needname: ', needName);
+    }
+    console.log('friend: ', this.context.friends)
+    this.context.friends.map(friend => 
+      needName === friend.friend_id 
+      ?   friendName = friend.username
+      :  ''
+    )
+    return friendName;
+  }
+  
 
   render() {
     const { wagers, selectedWager } = this.context;
@@ -33,12 +56,12 @@ export default class Bets extends Component {
         <h2>{selectedWager.title}</h2>
           <li><img src='../chip32.png' alt='chip icon' className='wagerIcon'/>{selectedWager.wager}</li>
           {selectedWager.start_date 
-            ? <li><img src='../date.png' alt='date icon' className='wagerIcon'/>Start: {selectedWager.start_date}</li>
+            ? <li><img src='../date.png' alt='start date icon' className='wagerIcon'/>Start: {Helpers.processDate(selectedWager.start_date)}</li>
             : ''}
           {selectedWager.end_date
-            ? <li><img src='../date.png' alt='date icon' className='wagerIcon'/>End: {selectedWager.end_date}</li> 
+            ? <li><img src='../end.png' alt='end date icon' className='wagerIcon'/>End: {Helpers.processDate(selectedWager.end_date)}</li> 
             : ''}
-          {selectedWager.bettors ? <li><img src='../friend.png' alt='friend icon' className='wagerIcon'/>{selectedWager.bettors.join(', ')}</li> : ''}
+          {selectedWager.bettor1 ? <li><img src='../friend.png' alt='friend icon' className='wagerIcon'/>{this.getFriendById(selectedWager.bettor1, selectedWager.bettor2)}</li> : ''}
         </ul>
         }
 

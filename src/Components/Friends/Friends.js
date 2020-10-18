@@ -119,10 +119,7 @@ export default class Friends extends Component {
                 <li><img className ='friendAvatar' src={friend.avatar} alt='avatar'/></li>
                 <li>{btnLabels.map(btnLabel => 
                   <button onClick={() => this.handleUpdateFriendship(friend.friend_id, btnLabel.parameter)}>{btnLabel.label}</button>)}
-                </li>
-                  {/* <button onClick={() => this.handleUpdateFriendship(friend.friend_id, 'approve')}>approve</button> 
-                  <button onClick={() => this.handleUpdateFriendship(friend.friend_id, 'deny')}>deny</button> */}
-                
+                </li>               
               </ul>)
             : ''}
             {awaitingFriends.length > 0
