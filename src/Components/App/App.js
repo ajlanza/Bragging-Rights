@@ -1,7 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Nav from '../Nav/Nav';
-import Bets from '../Bets/Bets';
 import NewBet from '../NewBet/NewBet';
 import Profile from '../Profile/Profile';
 import LogIn from '../LogIn/LogIn';
@@ -16,12 +15,9 @@ function App() {
       <nav>
         <Nav />
       </nav>
-      <header className="App-header">
-        <Header />    
-      </header>
       <main>
-        <Switch>         
-          <Route path='/bets' component = { RequireAuth(Bets) } />
+        <Switch>
+          <Route path='/' exact component= { Header }/>
           <Route path='/new' component = { RequireAuth(NewBet) } />
           <Route path='/profile' component = { RequireAuth(Profile) } />
           <Route path='/login' component = { LogIn } />

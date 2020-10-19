@@ -2,6 +2,7 @@ import BragContext from '../BragContext';
 import React, { Component } from 'react';
 import AuthApiService from '../../services/auth-api-service';
 import Swal from 'sweetalert2';
+import './friends.css'
 
 export default class Friends extends Component {
   static contextType = BragContext;
@@ -13,13 +14,14 @@ export default class Friends extends Component {
   checkHasMatch = ev => {
     ev.preventDefault()
     this.setState({ match: false })
-    const username = ev.target.username.value;
+    let username = ev.target.username.value;
     if(this.context.user.username === username){
       Swal.fire({
         icon: 'error',
         title: `Can't add yourself as a friend.`,
         text: 'Please try again.'
       });
+      ev.target.username.value = '';
     }
     for(let i = 0; i < this.context.friends.length; i++){
       if (username === this.context.friends[i].username){
@@ -28,12 +30,14 @@ export default class Friends extends Component {
           title: `${username} is already a friend.`,
           text: 'Please try again.'
         });
-        this.setState({ match: true})
+        this.setState({ match: true});
+        ev.target.username.value = '';
         return;
       }
     }
     if(!this.state.match){
-      this.addFriendRequest(username)
+      this.addFriendRequest(username);
+      ev.target.username.value = '';
     }
   }
   handleUpdateFriendship(friend, action) {
@@ -63,6 +67,7 @@ export default class Friends extends Component {
         AuthApiService.getFriends(this.context.user.id)
           .then((data) => {
             this.context.setFriends(data);
+
           })
       })
       .catch(res => {
@@ -118,7 +123,7 @@ export default class Friends extends Component {
                 <li>{friend.username}</li>
                 <li><img className ='friendAvatar' src={friend.avatar} alt='avatar'/></li>
                 <li>{btnLabels.map(btnLabel => 
-                  <button onClick={() => this.handleUpdateFriendship(friend.friend_id, btnLabel.parameter)}>{btnLabel.label}</button>)}
+                  <button key={btnLabel.parameter} onClick={() => this.handleUpdateFriendship(friend.friend_id, btnLabel.parameter)}>{btnLabel.label}</button>)}
                 </li>               
               </ul>)
             : ''}

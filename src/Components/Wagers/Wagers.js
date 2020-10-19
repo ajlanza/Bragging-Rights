@@ -3,6 +3,7 @@ import AuthApiService from '../../services/auth-api-service';
 import BragContext from '../BragContext';
 import { Link } from 'react-router-dom';
 import Helpers from '../../services/helpers';
+import './Wagers.css';
 
 export default class Wagers extends Component{
   static contextType = BragContext;
@@ -11,7 +12,28 @@ export default class Wagers extends Component{
     this.context.setSelectedWager({
       ...selectedWager
     })
-    this.props.history.push('/bets')
+    // this.props.history.push('/bets')
+  }
+
+  hideSelectedWager() {
+    this.context.hideSelectedWager();
+  }
+
+  getFriendById(bettor1, bettor2) {
+    let user = this.context.user.id;
+    let needName = null;
+    let friendName;
+    if(bettor1 !== user){
+      needName = bettor1;
+    } else if(bettor2 !== user){
+      needName = bettor2;
+    }
+    this.context.friends.map(friend => 
+      needName === friend.friend_id 
+      ?   friendName = friend.username
+      :  ''
+    )
+    return friendName;
   }
 
   handleUpdateWager(wager_id, wager_status){
@@ -32,7 +54,7 @@ export default class Wagers extends Component{
   
 
   render() {
-    let { approvedWagers, needsMyApproval, awaitingOtherBettor } = this.context;
+    let { approvedWagers, needsMyApproval, awaitingOtherBettor, selectedWager } = this.context;
     let btnLabels = [
       {
         label: 'Approve',
@@ -47,6 +69,42 @@ export default class Wagers extends Component{
 
     return(
       <div>
+      {/* Selected Wager Details */}
+      
+      {selectedWager.length === 0
+      // No wager selected
+        ? ''
+        // <ul className='selected-bet'>
+        //   <h2>No wager selected</h2>
+        //   <li>Please choose a wager to view details</li>
+        // </ul> 
+      // Wager selected
+        : 
+        selectedWager.hidden === false 
+        // SelectedWager should be shown
+          ?      
+          <ul className='selected-bet' onClick={() => this.hideSelectedWager()}>
+            <h2 className='wagerTitle'> {selectedWager.title} </h2>
+            <li><img src='../chip32.png' alt='chip icon' className='wagerIcon'/> {selectedWager.wager} </li>
+            <li><img src='../date.png' alt='start date icon' className='wagerIcon'/> 
+            {selectedWager.start_date 
+              ? ` ${Helpers.processDate(selectedWager.start_date)}`
+              : ` N/A `
+            }
+            </li>
+            <li><img src='../end.png' alt='end date icon' className='wagerIcon'/> 
+            {selectedWager.end_date
+              ? Helpers.processDate(selectedWager.end_date)
+              : 'N/A'}
+            </li>
+            <li><img src='../friend.png' alt='friend icon' className='wagerIcon'/>{this.getFriendById(selectedWager.bettor1, selectedWager.bettor2)}</li> 
+          </ul>
+          // SelectedWager should not be shown
+          : ''
+        }
+     
+      
+
       {/* If there are live wagers display them */}
       {approvedWagers.length > 0 
         ? <>
@@ -55,9 +113,9 @@ export default class Wagers extends Component{
           {approvedWagers.map(bet =>
             <div key={bet.id} className='wager' onClick={() => this.selectWager(bet)}> 
             <ul>
-              <li>{bet.title}</li>
-              <li><img src='../date.png' alt='date icon' className='wagerIcon'/>{Helpers.processDate(bet.start_date)}</li>
-              <li><img src='../chip32.png' alt='chip icon' className='wagerIcon'/>{bet.wager}</li>
+              <li className='wagerTitle'>{bet.title}</li>
+              <li><img src='../date.png' alt='date icon' className='wagerIcon'/> {Helpers.processDate(bet.start_date)} </li>
+              <li><img src='../chip32.png' alt='chip icon' className='wagerIcon'/> {bet.wager} </li>
             </ul>
             </div>
           )}
@@ -81,9 +139,9 @@ export default class Wagers extends Component{
             <div key={bet.id} className='wager'>
               <ul>
                 <li>{bet.title}</li>
-                <li><img src='../date.png' alt='date icon' className='wagerIcon'/>{bet.start_date}</li>
+                <li><img src='../date.png' alt='date icon' className='wagerIcon'/>{Helpers.processDate(bet.start_date)}</li>
                 <li><img src='../chip32.png' alt='chip icon' className='wagerIcon'/>{bet.wager}</li>
-                <li>{btnLabels.map(btnLabel => 
+                <li className='approveDenyButtons'>{btnLabels.map(btnLabel => 
                   <button key={btnLabel.label}onClick={() => this.handleUpdateWager(bet.id, btnLabel.parameter)}>{btnLabel.label}</button>
                 )}</li>
                
@@ -101,7 +159,7 @@ export default class Wagers extends Component{
             <div key={bet.id} className='wager'>
               <ul>
                 <li>{bet.title}</li>
-                <li><img src='../date.png' alt='date icon' className='wagerIcon'/>{bet.start_date}</li>
+                <li><img src='../date.png' alt='date icon' className='wagerIcon'/>{Helpers.processDate(bet.start_date)}</li>
                 <li><img src='../chip32.png' alt='chip icon' className='wagerIcon'/>{bet.wager}</li>
                 <li>Pending approval.</li>
               </ul>

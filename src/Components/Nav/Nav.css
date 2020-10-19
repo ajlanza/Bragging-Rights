@@ -1,10 +1,17 @@
 
+.hideThis {
+  background-color: snow;
+  position: fixed;
+  z-index: 2;
+  top: 0px;
+}
 .navContainer {
-    /* position: relative; */
+    position: absolute;
     display: none;
     width: 100%;
     margin: 0;
     padding: 0;
+    background-color: snow
   }
   
 .homeIcon{
@@ -12,38 +19,44 @@
    width: 1.2em;
    margin-left: 0px;
 }
-.hideThis {
-    background-color: snow;
-    position: fixed;
-    top: 0px;
-  }
+
   
   .bigScreenContainer{
     display: flex;
-    background-color: snow;
-    text-align: end;
     width: 100%;
     position: fixed;
     top: 0;
-    justify-content: space-around;
+    left: 0;
+    justify-content: space-between;
+    background-color: lightcyan;
+    z-index: 2;
+    border-bottom: 2px solid black;
+    margin-bottom: 0px;
   }
+
   
   .homeLink {
     display: flex;
-    justify-self: left;
-    text-align: left;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
     margin-left: 0px;
+    width: 100%;
+    padding-left: 10px;
+    flex-shrink: 2;
   }
   
   .otherLinks {
     display: flex;
-    width: 50%;
     justify-content: flex-end;
-    
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+    padding-right: 10px;
   }
   
   .navLink{
-    padding: 0px 1%;
+    display: inline-block;
   }
   
   a{
@@ -66,10 +79,10 @@
     top: 100%;
     left: 0;
     width: 200px;
-    z-index: 2;
     background-color: snow;
     border: 1px solid rgba(0, 0, 0, 0.04);
     box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14);
+    text-align: left;
   }
   
   ul {
@@ -83,10 +96,10 @@
     font-family: 'Roboto';
   }
   
-  li:hover {
+  /* li:hover {
     background-color: rgba(0, 0, 0, 0.14);
     cursor: pointer;
-  }
+  } */
   
   @media only screen and (max-width: 360px) {
     .bigScreenContainer {

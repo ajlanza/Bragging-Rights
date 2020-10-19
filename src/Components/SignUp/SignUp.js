@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import BragContext from '../BragContext';
+import Header from '../Header/Header';
 import './SignUp.css';
 import AuthApiService from '../../services/auth-api-service';
 import Swal from 'sweetalert2'
@@ -67,24 +68,24 @@ export default class SignUp extends Component {
   }
 
   render() {
-    return (
+    return (      
       <div>
+      <Header />
         <h3>Please fill out the form to register an account.</h3>
-        <p>Usernames must be unique and passwords must be at least 8 characters long.</p>
         <form className='signup-form' onSubmit={this.handleSubmit}>
           <div>
             <label htmlFor="username">Username:</label>
-            <input required type="text" name='username' id='username' placeholder='Username' />
+            <input required type="text" name='username' id='username' placeholder='Username' title='Usernames must be unique' />
           </div>
           <div>
             <label htmlFor="password">Password:</label>
             {/* apply class to input field depending on whether or not password match is confirmed */}
-            <input required type="password" name='password' id='password' className={this.state.match ? 'confirmed' : 'unconfirmed'} onChange={this.confirmPassword}/>
+            <input required type="password" name='password' id='password' className={this.state.match ? 'confirmed' : 'unconfirmed'} onChange={this.confirmPassword} title='Passwords must be at least 8 characters long' />
           </div>
           <div>
             <label htmlFor="password-confirmation" >Confirm Password:</label>
             {/* apply class to input field depending on whether or not password match is confirmed */}
-            <input required type="password" name='confirm' id='confirm' className={this.state.match ? 'confirmed' : 'unconfirmed'} onChange={this.confirmPassword}/>
+            <input required type="password" name='confirm' id='confirm' className={this.state.match ? 'confirmed' : 'unconfirmed'} onChange={this.confirmPassword} title='Passwords must be at least 8 characters long'/>
           </div>
           {/* if passwords don't match disable the submit button */}
           <button type='submit' disabled={!this.state.match}>Sign Up</button>

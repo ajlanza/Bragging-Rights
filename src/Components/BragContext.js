@@ -32,6 +32,7 @@ const BragContext = React.createContext({
   clearAll: () => {},
   setWagers: () => {},
   setSelectedWager: () => {},
+  hideSelectedWager: () => {},
   setFriends: () => {},
   setUser: () => {},
   setAuthorized: () => {},
@@ -108,8 +109,16 @@ export class BragContextProvider extends Component {
         betAgainst = this.state.friends[i].username
       }
     }
-    selectedWager = { ...selectedWager, betAgainst};
+    selectedWager = { ...selectedWager, betAgainst, hidden: false};
     this.setState({ selectedWager })
+  }
+
+  hideSelectedWager = () =>{
+    let { selectedWager } = this.state;
+    selectedWager.hidden = true;
+    this.setState({
+      selectedWager
+    })
   }
 
   setFriends = friends => {
@@ -177,6 +186,7 @@ export class BragContextProvider extends Component {
       clearError: this.clearError,
       setWagers: this.setWagers,
       setSelectedWager: this.setSelectedWager,
+      hideSelectedWager: this.hideSelectedWager,
       setFriends: this.setFriends,
       setUser: this.setUser,
       setAuthorized: this.setAuthorized,

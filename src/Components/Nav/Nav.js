@@ -108,31 +108,43 @@ export default class Nav extends Component {
             <img src='../home.png' alt='home' className='homeIcon' />
           </Link>
           </div>
-          <div className='otherLinks'>
+
+          {/* <div className='otherLinks'> */}
+          <ul className='otherLinks'>
           {TokenService.hasAuthToken()
           ?
           <>
-          <Link to='/login' onClick={() => this.logOut()}>
+          <li>
+          <Link to='/login' className='navLink' onClick={() => this.logOut()}>
             Logout
           </Link>
+          </li>
+          <li>
           <Link to='/new' className='navLink'>
             New Bet
           </Link>
+          </li>
+          <li>
           <Link to='/profile' className='navLink'>
             Profile
           </Link>
+          </li>
           </>
           :
           <>
-          <Link to='/login' className='navLink>'>
+          <li>
+          <Link to='/login' className='navLink'>
             Log In
           </Link>
-          <Link to='/signup' className='mobileNavLink>' onClick={this.handleMenuClick}>
+          </li>
+          <li>
+          <Link to='/signup' className='navLink' onClick={this.handleMenuClick}>
             Sign Up
           </Link>
+          </li>
           </>
           }  
-          </div>
+          </ul>
         </div>
       </div>
     )

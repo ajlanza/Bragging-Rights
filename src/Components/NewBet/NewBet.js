@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import BragContext from '../BragContext';
 import Swal from 'sweetalert2';
+import Header from '../Header/Header'
 import AuthApiService from '../../services/auth-api-service';
 import './NewBet.css';
 
@@ -57,11 +58,12 @@ export default class NewBet extends Component{
     
     return(
       <div>
+        <Header />
         <h2>New Bet</h2>
         <form className='newBetForm' onSubmit={this.handleSubmit}>
           
-          <label className='newBet' htmlFor='title'>Wager name: </label>
-          <input className='newBet' required type='text' name='title' id='title' placeholder='Wager name' /> <br />
+          <label htmlFor='title'>Wager name: </label>
+          <input required type='text' name='title' id='title' placeholder='Wager name' /> <br />
           <label htmlFor='amount'>Amount: </label>
           <input type='text' name='amount' id='amount' placeholder='2 cups of coffee'/> <br />
           <label htmlFor='startDate'>Start Date: </label>
