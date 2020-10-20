@@ -1,14 +1,20 @@
-.wagerTitle{
+#wagerTitle{
   text-align: center;
+  padding-bottom: 1em;
+  padding-top: 0px;
 }
 .wagerIcon{
   padding-right: 10px;
   height: 1em;
   width: 1em;
-  padding: 0;
+  
   margin: 0;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
 }
 .wager{
+  display: flex;
   background-color: lightcyan;
   border: 2px solid #010C1F;
   border-radius: 10px;
@@ -17,6 +23,8 @@
   height: 10em;
   width: 10em;
   text-align: left;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
 }
 .wager:hover, .selected-bet:hover {
@@ -47,4 +55,7 @@
   width: 100%;
   justify-content: stretch;
   box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14);
+}
+.wager li{
+  padding: 4px;
 }

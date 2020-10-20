@@ -12,7 +12,7 @@ export default class Profile extends Component{
     let {  user } = this.context;
     
     return(
-      <div>
+      <div className='profile'>
         <h2>{user.username}</h2>
           <img className ='profilePicture' src={user.avatar} alt='profile'/>
           <Wagers history={this.props.history}/>          

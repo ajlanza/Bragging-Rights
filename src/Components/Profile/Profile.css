@@ -7,58 +7,7 @@
   border-radius: 100px;
 }
 
-/* .friendAvatar {
-  height: 4em;
-  width: 4em;
-  background-color: snow;
-  border: 2px solid #010C1F;
-  border-radius: 100px;
-} */
-
-/* .betContainer {
-  display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-} */
-/* .friendContainer{
-  display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-} */
-
-
-/* .friend{
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-  background-color: lightcyan;
-  border: 2px solid #010C1F;
-  border-radius: 10px;
-  margin: 2px;
-  padding: 2px;
-  /* height: 10em;
-  width: 10em; */
-
-/* .wagerIcon{
-  padding-right: 10px;
-} */
-
-/* form{
-  display: flex;
-  flex-direction: column;
-  justify-self: center;
-} */
-/* label, input{
-  align-self: left;
-  text-align: left;
-  margin: 0;
-} */
-
-/* .betName{
-  color: chartreuse;
-  border: 2px solid #010C1F;
-  border-radius: 10px;
-  margin: 2px;
-} */
+.profile{
+  position: relative;
+  margin-top: 80px;
+}
