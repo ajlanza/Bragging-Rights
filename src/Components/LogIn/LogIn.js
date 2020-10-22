@@ -5,6 +5,7 @@ import AuthApiService from '../../services/auth-api-service';
 import TokenService from '../../services/token-service';
 import Header from '../Header/Header';
 import Swal from 'sweetalert2';
+import './login.css';
 
 export default class LogIn extends Component {
   static contextType = BragContext;
@@ -64,14 +65,14 @@ export default class LogIn extends Component {
     
   }
     render() {
-  
+        
         return(
           <>
           <Header />
           <div className='login'>
             <h3>Log In</h3>
             <h4>For testing purposes you may use Username: "Username" Password: "password" which are both case sensitive.</h4>
-            <form className='login' onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleSubmit}>
               <div>
                 <label htmlFor='username'>Username:</label>
                 <input required type='text' name='username' id='username' placeholder='Username' />

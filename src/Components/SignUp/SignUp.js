@@ -69,8 +69,9 @@ export default class SignUp extends Component {
 
   render() {
     return (      
-      <div>
+      <>
       <Header />
+      <div className='signup'>
         <h3>Please fill out the form to register an account.</h3>
         <form className='signup-form' onSubmit={this.handleSubmit}>
           <div>
@@ -91,6 +92,7 @@ export default class SignUp extends Component {
           <button type='submit' disabled={!this.state.match}>Sign Up</button>
         </form>
       </div>
+      </>
     )
   }
 }

@@ -14,7 +14,7 @@ export default class Profile extends Component{
     return(
       <div className='profile'>
         <h2>{user.username}</h2>
-          <img className ='profilePicture' src={user.avatar} alt='profile'/>
+          <img className ='logo' src={user.avatar} alt='profile'/>
           <Wagers history={this.props.history}/>          
           <Friends />
       </div>

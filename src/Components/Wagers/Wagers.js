@@ -1,45 +1,36 @@
 import React, { Component } from 'react';
-import AuthApiService from '../../services/auth-api-service';
 import BragContext from '../BragContext';
-import { Link } from 'react-router-dom';
+import ApprovedWagers from '../ApprovedWagers/ApprovedWagers';
+import WagersNeedApproval from '../WagersNeedApproval/WagersNeedApproval';
+import PendingWagers from '../PendingWagers/PendingWagers';
+import PastWagers from '../PastWagers/PastWagers';
 import Helpers from '../../services/helpers';
+import AuthApiService from '../../services/auth-api-service';
 import './Wagers.css';
 
 export default class Wagers extends Component{
   static contextType = BragContext;
 
-  selectWager(selectedWager){
-    this.context.setSelectedWager({
-      ...selectedWager
-    })
-  }
-
   hideSelectedWager() {
     this.context.hideSelectedWager();
   }
 
-  getFriendById(bettor1, bettor2) {
-    let user = this.context.user.id;
-    let needName = null;
-    let friendName;
-    if(bettor1 !== user){
-      needName = bettor1;
-    } else if(bettor2 !== user){
-      needName = bettor2;
+  handleUpdateWager(wager_id, parameter, type){
+    let wager;
+    if(type === 'approval'){
+      wager = {
+        wager_id,
+        wager_status: parameter,
+        type
+      }
     }
-    this.context.friends.map(friend => 
-      needName === friend.friend_id 
-      ?   friendName = friend.username
-      :  ''
-    )
-    return friendName;
-  }
-
-  handleUpdateWager(wager_id, wager_status){
-    let wager = {
-      wager_id,
-      wager_status
-    }
+    if(type === 'winner'){
+      wager = {
+        wager_id,
+        winner: parameter,
+        type
+      }
+    }  
     AuthApiService.updateWager(wager)
       .then(() => {
         AuthApiService.getWagers(this.context.user.id)
@@ -51,27 +42,22 @@ export default class Wagers extends Component{
   }
 
   render() {
-    let { approvedWagers, needsMyApproval, awaitingOtherBettor, selectedWager } = this.context;
-    let btnLabels = [
-      {
-        label: 'Approve',
-        parameter: 'approved'
-      },
-      {
-        label: 'Deny',
-        parameter: 'denied'
-      },
+    let { selectedWager, needsMyApproval, awaitingOtherBettor, user, approvedFriends } = this.context;    
+    let approveDenyBtns = [
+      { label: 'approve2', parameter: 'approved' },
+      { label: 'deny2', parameter: 'denied' },
     ];
-    
-
+    let winLoseBtns = [
+      { label: 'I won!', parameter: user.id },
+      { label: 'I lost.', parameter: user.id === selectedWager.bettor1 ? selectedWager.bettor2 : selectedWager.bettor1 }
+    ]
     return(
-      <div>
+      <>
       {/* Selected Wager Details */}
-      
       {selectedWager.length === 0
-        // No wager selected
+        // If no wager is selected, display nothing
         ? ''
-        // Wager selected
+        // If a wager is selected
         : 
         selectedWager.hidden === false 
           // SelectedWager should be shown
@@ -90,80 +76,45 @@ export default class Wagers extends Component{
               ? Helpers.processDate(selectedWager.end_date)
               : 'N/A'}
             </li>
-            <li><img src='../friend.png' alt='friend icon' className='wagerIcon'/>{this.getFriendById(selectedWager.bettor1, selectedWager.bettor2)}</li> 
+            <li><img src='../friend.png' alt='friend icon' className='wagerIcon'/>{Helpers.getFriendById(user.id, approvedFriends, selectedWager.bettor1, selectedWager.bettor2)}</li> 
+            {/* If wager needs user approval, give user approve and deny buttons */}
+            {selectedWager.wager_status === 'pending bettor2' && selectedWager.bettor2 === user.id 
+            ?
+              <li className='approveDenyContainer'>{approveDenyBtns.map(btn =>
+                  <img src={`../${btn.label}.png`} 
+                    alt={btn.label} 
+                    key={btn.label} 
+                    onClick={() => this.handleUpdateWager(selectedWager.id, btn.parameter, 'approval')} 
+                    className='approveDenyButtons'/>
+                )}
+              </li>
+            : selectedWager.wager_status === 'approved' && selectedWager.winner === 0
+              ? 
+                <li className='approveDenyContainer'>{winLoseBtns.map(btn =>
+                  <input type='button' 
+                    key={btn.label} 
+                    value={btn.label}
+                    onClick={() => this.handleUpdateWager(selectedWager.id, btn.parameter, 'winner')} 
+                    className='winLoseButtons'/>
+                  )}
+                </li>
+              : ''
+            }
+
           </ul>
           // SelectedWager should not be shown
           : ''
         }
      
-      
-
-      {/* If there are live wagers display them */}
-      {approvedWagers.length > 0 
-        ? <>
-          <h3>Current Wagers</h3>
-          <div className='betContainer'>
-          {approvedWagers.map(bet =>
-            <div key={bet.id} className='wager' onClick={() => this.selectWager(bet)}> 
-            <ul>
-              <li id='wagerTitle'>{bet.title}</li>
-              <li><img src='../date.png' alt='date icon' className='wagerIcon'/> {Helpers.processDate(bet.start_date)}</li>
-              <li><img src='../chip32.png' alt='chip icon' className='wagerIcon'/> {bet.wager}</li>
-              <li><img src='../friend.png' alt='friend icon' className='wagerIcon'/> {this.getFriendById(bet.bettor1, bet.bettor2)}</li>
-            </ul>
-            </div>
-          )}
-          </div></>
-        : <>
-          <h3>No active wagers</h3>
-          <Link to='/new'><button>Create Wager</button></Link>
-          </> 
-      }
-
-      {/* If there are wagers I need to approve, display them */}
-      {needsMyApproval.length > 0
-        ? <>
-          <h3>Pending Wagers</h3>
-          <div className='betContainer'>
-          {needsMyApproval.map(bet => 
-            <div key={bet.id} className='wager'>
-              <ul>
-                <li id='wagerTitle'>{bet.title}</li>
-                <li><img src='../date.png' alt='date icon' className='wagerIcon'/> {Helpers.processDate(bet.start_date)}</li>
-                <li><img src='../chip32.png' alt='chip icon' className='wagerIcon'/> {bet.wager}</li>
-                <li><img src='../friend.png' alt='friend icon' className='wagerIcon'/> {this.getFriendById(bet.bettor1, bet.bettor2)}</li>
-                <li className='approveDenyButtons'>{btnLabels.map(btnLabel =>
-                  <button key={btnLabel.label}onClick={() => this.handleUpdateWager(bet.id, btnLabel.parameter)}>{btnLabel.label}</button>
-                )}</li>
-               
-              </ul>
-            </div>  
-          )}
-          </div>
-          </>
+      <ApprovedWagers />
+      {needsMyApproval.length > 0 || awaitingOtherBettor.length > 0
+        ? <h3>Pending Wagers</h3>
         : ''
       }
-
-      {/* If there are wagers waiting for friend to approve, display them */}
-      {awaitingOtherBettor.length > 0
-        ? <>
-          <h3>Awaiting Friend's Approval</h3>
-          <div className='betContainer'>
-          {awaitingOtherBettor.map(bet => 
-            <div key={bet.id} className='wager'>
-              <ul>
-                <li id='wagerTitle'>{bet.title}</li>
-                <li><img src='../date.png' alt='date icon' className='wagerIcon'/> {Helpers.processDate(bet.start_date)}</li>
-                <li><img src='../chip32.png' alt='chip icon' className='wagerIcon'/> {bet.wager}</li>
-                <li><img src='../friend.png' alt='friend icon' className='wagerIcon'/> {this.getFriendById(bet.bettor1, bet.bettor2)}</li>
-              </ul>
-            </div>  
-          )}
-          </div>
-          </>
-        : ''
-      }
-      </div>
+      <WagersNeedApproval />
+      <PendingWagers />
+      <PastWagers />
+      </>
     )
   }
 }

@@ -1,10 +1,18 @@
 .confirmed {
     border: 2px solid green;
-  }
-  .unconfirmed{
+}
+.unconfirmed{
     border: 2px solid red;
-  }
-  input, textarea, select{
+}
+input, textarea, select{
     border: 2px solid black;
     border-radius: 5px;
-  }
+}
+
+.signup{
+  position: relative;
+  margin-top: 80px;
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-bottom: 10px;
+}

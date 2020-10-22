@@ -1,11 +1,8 @@
-.App {
-  text-align: center;
-}
-
 body {
   margin: 0px;
+  padding: 0px;
   background-color: snow;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -14,10 +11,20 @@ body {
   color: #010c1f;
   width: 100%;
 }
+label{ 
+  display: block;
+  text-align: left;
+  padding-top: 15px;
+}
+input, select, option{
+  display: block;
+  text-align: left;
+  width: 200px;
 
-div {
-  
-  margin: 0px;
+}
+
+.App {
+  text-align: center;
 }
 .App-link {
   color: #61dafb;

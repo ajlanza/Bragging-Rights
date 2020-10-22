@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import BragContext from '../BragContext';
 import Swal from 'sweetalert2';
-import Header from '../Header/Header'
 import AuthApiService from '../../services/auth-api-service';
 import './NewBet.css';
 
@@ -57,19 +56,19 @@ export default class NewBet extends Component{
     const { approvedFriends } = this.context;
     
     return(
-      <div>
-        <Header />
+      <div className='newBet'>
+        
         <h2>New Bet</h2>
         <form className='newBetForm' onSubmit={this.handleSubmit}>
           
           <label htmlFor='title'>Wager name: </label>
-          <input required type='text' name='title' id='title' placeholder='Wager name' /> <br />
+          <input required type='text' name='title' id='title' placeholder='Wager name' />
           <label htmlFor='amount'>Amount: </label>
-          <input type='text' name='amount' id='amount' placeholder='2 cups of coffee'/> <br />
+          <input type='text' name='amount' id='amount' placeholder='2 cups of coffee'/>
           <label htmlFor='startDate'>Start Date: </label>
-          <input type='date' name='startDate' id='startDate' /> <br />
+          <input type='date' name='startDate' id='startDate' /> 
           <label htmlFor='endDate'>End Date: </label>
-          <input type='date' name='endDate' id='endDate' /> <br />
+          <input type='date' name='endDate' id='endDate' /> 
           <label htmlFor='bettors'>Friends: </label>
           
           {approvedFriends.length > 0 
@@ -89,7 +88,7 @@ export default class NewBet extends Component{
               
           : <p className='noValues'>No friends set up yet.</p>}
           
-          <button type='submit' >Submit</button>
+          <button type='submit' className='newBetButton'>Create bet</button>
         </form>
       </div>
     )

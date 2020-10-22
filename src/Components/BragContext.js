@@ -19,6 +19,8 @@ const BragContext = React.createContext({
     start_date: null,
     end_date: null,
   }],
+  wonWagers: [],
+  lostWagers: [],
   approvedWagers: [],
   needsMyApproval: [],
   awaitingOtherBettor: [],
@@ -50,6 +52,8 @@ export class BragContextProvider extends Component {
     },
     friends: [],
     wagers: [],
+    wonWagers: [],
+    lostWagers: [],
     approvedWagers: [],
     needsMyApproval: [],
     awaitingOtherBettor: [],
@@ -69,6 +73,8 @@ export class BragContextProvider extends Component {
       pendingFriends: [],
       awaitingFriends: [],
       wagers: [],
+      wonWagers: [],
+      lostWagers: [],
       approvedWagers: [],
       needsMyApproval: [],
       awaitingOtherBettor: [],
@@ -81,8 +87,16 @@ export class BragContextProvider extends Component {
     let approvedWagers = [];
     let needsMyApproval = [];
     let awaitingOtherBettor = [];
+    let wonWagers = [];
+    let lostWagers = [];
     if(wagers.length > 0){
       wagers.forEach(bet => {
+        if(bet.winner === this.state.user.id){
+          wonWagers.push(bet);
+        }
+        if(bet.winner !== 0 && bet.winner !== this.state.user.id){
+          lostWagers.push(bet);
+        }
         if(bet.wager_status === 'approved'){
           approvedWagers.push(bet);
         }
@@ -94,7 +108,7 @@ export class BragContextProvider extends Component {
         }
       })
       this.setState({
-        approvedWagers, needsMyApproval, awaitingOtherBettor, wagers
+        approvedWagers, needsMyApproval, awaitingOtherBettor, wonWagers, lostWagers, wagers
       })
     }
   }  
@@ -171,6 +185,8 @@ export class BragContextProvider extends Component {
     const value = {
       error: this.state.error,
       wagers: this.state.wagers,
+      wonWagers: this.state.wonWagers,
+      lostWagers: this.state.lostWagers,
       approvedWagers: this.state.approvedWagers,
       needsMyApproval: this.state.needsMyApproval,
       awaitingOtherBettor: this.state.awaitingOtherBettor,

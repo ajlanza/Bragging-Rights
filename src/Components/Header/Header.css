@@ -1,23 +1,9 @@
-.logo{
-  margin-top: 40px;
-    pointer-events: none;
-    position: relative;
-    z-index: -1;
-    width: 7em;
-  }
 
-
-@media (prefers-reduced-motion: no-preference) {
-  .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.header{
+  padding-top: 40px;
 }
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.hero{
+  background-image: url('./arm-wrestle2.jpg');
+  background-size: cover;
+  height: 18em;
 }

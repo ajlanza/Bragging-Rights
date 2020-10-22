@@ -3,6 +3,9 @@ import React, { Component } from 'react';
 import AuthApiService from '../../services/auth-api-service';
 import Swal from 'sweetalert2';
 import './friends.css'
+import AwaitingFriends from '../AwaitingFriends/AwaitingFriends';
+import PendingFriends from '../PendingFriends/PendingFriends';
+import ApprovedFriends from '../ApprovedFriends/ApprovedFriends';
 
 export default class Friends extends Component {
   static contextType = BragContext;
@@ -15,19 +18,24 @@ export default class Friends extends Component {
     ev.preventDefault()
     this.setState({ match: false })
     let username = ev.target.username.value;
-    if(this.context.user.username === username){
+    let lowerUsername = username.toLowerCase();
+    // check if user is trying to add themselves as a friend
+    if(this.context.user.username.toLowerCase() === lowerUsername){
       Swal.fire({
         icon: 'error',
         title: `Can't add yourself as a friend.`,
         text: 'Please try again.'
       });
+      this.setState({ match: true })
       ev.target.username.value = '';
+      return;
     }
+    //check if user has already requested the other user as a friend
     for(let i = 0; i < this.context.friends.length; i++){
-      if (username === this.context.friends[i].username){
+      if (lowerUsername === this.context.friends[i].username.toLowerCase()){
         Swal.fire({
           icon: 'error',
-          title: `${username} is already a friend.`,
+          title: `${this.context.friends[i].username} has already been requested.`,
           text: 'Please try again.'
         });
         this.setState({ match: true});
@@ -39,21 +47,6 @@ export default class Friends extends Component {
       this.addFriendRequest(username);
       ev.target.username.value = '';
     }
-  }
-  handleUpdateFriendship(friend, action) {
-    let friendship = {
-      user_id: this.context.user.id,
-      friend_id: friend,
-      action
-    }
-    AuthApiService.updateFriend(friendship)
-      .then(() => {
-         AuthApiService.getFriends(this.context.user.id)
-          .then(data => {
-            this.context.setFriends(data);
-          })
-      })
-      .catch(this.context.setError)
   }
 
   addFriendRequest(username) {
@@ -67,7 +60,6 @@ export default class Friends extends Component {
         AuthApiService.getFriends(this.context.user.id)
           .then((data) => {
             this.context.setFriends(data);
-
           })
       })
       .catch(res => {
@@ -81,65 +73,26 @@ export default class Friends extends Component {
   }
 
   render(){
-    let {approvedFriends, pendingFriends, awaitingFriends} = this.context;
-    let btnLabels = [
-      {
-        label: 'Approve',
-        parameter: 'approved'
-      },
-      {
-        label: 'Deny',
-        parameter: 'denied'
-      },
-    ];
-    
+    let { awaitingFriends, pendingFriends } = this.context
     return(
       <>
       <h3>Friends</h3>
         <div className='friendContainer'>
-            <form  className='addFriend friend' onSubmit={this.checkHasMatch}>
-              <h3>Add a friend</h3>
-              <label>Friend Username:</label>
-              <input required type='text' name='username' id='username'></input>
-              <br/>
-              <button type='submit'>Submit</button>
-            </form>           
-          {approvedFriends.length > 0
-          ? approvedFriends.map(friend => 
-            <ul className='friend' key={friend.username}>
-              <li>{friend.username}</li>
-              <li><img className ='friendAvatar' src={friend.avatar} alt='avatar'/></li>
-            </ul>)
-          : ''      
-          }
-          </div>
-
-          {pendingFriends.length > 0 || awaitingFriends.length > 0
-          ? <><h3>Pending Friends</h3>
-            <div className='friendContainer'>
-            {pendingFriends.length > 0 
-            ? pendingFriends.map(friend => 
-              <ul className='friend' key={friend.username}>
-                <li>{friend.username}</li>
-                <li><img className ='friendAvatar' src={friend.avatar} alt='avatar'/></li>
-                <li>{btnLabels.map(btnLabel => 
-                  <button key={btnLabel.parameter} onClick={() => this.handleUpdateFriendship(friend.friend_id, btnLabel.parameter)}>{btnLabel.label}</button>)}
-                </li>               
-              </ul>)
-            : ''}
-            {awaitingFriends.length > 0
-            ? awaitingFriends.map(friend => 
-              <ul className='friend' key={friend.username}>
-                <li>{friend.username}</li>
-                <li><img className ='friendAvatar' src={friend.avatar} alt='avatar'/></li>
-                <li>Pending approval</li>
-              </ul>)
-            : ''}
-            </div></>
-          : ''      
-          }
-          </>
+          <form  className='addFriend friend' onSubmit={this.checkHasMatch}>
+            <h3>Add a friend</h3>
+            <label>Friend Username:</label>
+            <input required type='text' name='username' id='username'></input>
+            <br/>
+            <button type='submit'>Submit</button>
+          </form> 
+          <ApprovedFriends />
+        </div>
+        {awaitingFriends.length > 0 || pendingFriends.length > 0
+          ? <h3>Pending Friends</h3>
+          : '' }
+        <AwaitingFriends />
+        <PendingFriends />
+      </>
     )
-    
   }
 }

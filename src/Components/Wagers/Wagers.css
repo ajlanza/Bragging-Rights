@@ -25,14 +25,48 @@
   text-align: left;
   justify-content: center;
   align-items: center;
+}
+.selected-bet:hover {
   cursor: pointer;
 }
-.wager:hover, .selected-bet:hover {
+.selectable{
+  cursor: pointer;
+}
+.selectable:hover {
   background-color: darkcyan;
   cursor: pointer;
 }
-.approveDenyButtons{
+.winStatus{
   text-align: center;
+}
+.approveDenyContainer{
+  display: flex;
+  /* text-align: center;
+  align-items: center; */
+  justify-content: space-evenly;
+}
+.approveDenyButtons{
+  display: inline-block;
+  justify-content: center;
+  align-items: center;
+  border: 0px solid black;
+  border-radius: 20px;
+}
+.approveDenyButtons:hover{
+  background-color: darkcyan;;
+  cursor: pointer;
+}
+.winLoseButtons{
+  display: inline-block;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  border: 2px solid black;
+  border-radius: 20px;
+}
+.winLoseButtons:hover{
+  background-color: darkcyan;;
+  cursor: pointer;
 }
 .betContainer {
   display: flex;
@@ -45,15 +79,15 @@
   z-index: 1;
   position: sticky;
   top: 1.8em;
-  margin: 2px;
-  padding: 2px;
+  margin: 10px;
+  padding: 0px;
   border: 2px black solid;
   border-radius: 10px;
-  flex: 1;
+  /* flex: 1; */
   background-color: lightcyan;
   color: black;
-  width: 100%;
-  justify-content: stretch;
+  /* width: 100%; */
+  /* justify-content: stretch; */
   box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14);
 }
 .wager li{

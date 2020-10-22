@@ -1,23 +1,22 @@
-.newBetForm{
-    display: flex;
-    flex-direction: column;
-    background-color: lightcyan;
-}
-
-label{ 
-  display: block;
-  text-align: left;  
-}
-input, select, option{
-
-display: block;
-text-align: left;
-
-width: 200px;
-}
-
 .noValues{
-text-align: left;
-margin-left: 35px;
-font-size: 16px;
+  text-align: left;
+  margin-left: 35px;
+  font-size: 16px;
+}
+.newBetForm{
+  display: flex;
+  flex-direction: column;
+  background-color: lightcyan;
+  border: 2px solid black;
+  padding: 5px
+}
+.newBet{ 
+  position: relative;
+  margin-top: 80px;
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-bottom: 10px;
+}
+.newBetButton{
+  margin-top: 20px;
 }

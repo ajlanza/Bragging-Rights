@@ -38,3 +38,16 @@
 [1020/070226.139:ERROR:file_io.cc(90)] ReadExactly: expected 36, observed 0
 [1020/095819.828:ERROR:file_io.cc(90)] ReadExactly: expected 36, observed 0
 [1020/101016.207:ERROR:file_io.cc(90)] ReadExactly: expected 36, observed 0
+[1020/122338.747:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[1020/220325.480:ERROR:file_io.cc(90)] ReadExactly: expected 36, observed 0
+[1020/231025.637:ERROR:file_io.cc(90)] ReadExactly: expected 36, observed 0
+[1021/010143.286:ERROR:file_io.cc(90)] ReadExactly: expected 36, observed 0
+[1021/013958.892:ERROR:file_io.cc(90)] ReadExactly: expected 36, observed 0
+[1021/112457.674:ERROR:file_io.cc(90)] ReadExactly: expected 36, observed 0
+[1021/183200.471:ERROR:file_io.cc(90)] ReadExactly: expected 36, observed 0
+[1021/183849.773:ERROR:file_io.cc(90)] ReadExactly: expected 36, observed 0
+[1021/190809.944:ERROR:file_io.cc(90)] ReadExactly: expected 36, observed 0
+[1021/192006.329:ERROR:file_io.cc(90)] ReadExactly: expected 36, observed 0
+[1021/200120.544:ERROR:file_io.cc(135)] WriteFile: The pipe is being closed. (0xE8)
+[1022/110725.883:ERROR:file_io.cc(90)] ReadExactly: expected 36, observed 0
+[1022/140238.312:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)

@@ -1,13 +1,28 @@
 
-.profilePicture  {
-  height: 4em;
-  width: 4em;
+.logo  {
   background-color: lightcyan;
   border: 2px solid #010C1F;
   border-radius: 100px;
+  width: 7em;
 }
 
 .profile{
   position: relative;
   margin-top: 80px;
+}
+
+
+@media (prefers-reduced-motion: no-preference) {
+  .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
