@@ -42,6 +42,11 @@ export default class NewBet extends Component{
     AuthApiService.postWager(newWager)
     // Once new wager is posted, set context so it includes new wager
     .then(() => {
+      Swal.fire(
+        'Success',
+        'New wager added',
+        'success'
+      )
       AuthApiService.getWagers(this.context.user.id)
       .then((data) => {
         this.context.setWagers(data);

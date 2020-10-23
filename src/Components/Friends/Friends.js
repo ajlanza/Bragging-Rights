@@ -57,6 +57,11 @@ export default class Friends extends Component {
     AuthApiService.addFriend(newFriendship)
       .then(res => {
         // Refresh profile with new friend
+        Swal.fire(
+          'Success',
+          'Friend Request Added',
+          'success'
+        )
         AuthApiService.getFriends(this.context.user.id)
           .then((data) => {
             this.context.setFriends(data);
