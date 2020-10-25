@@ -6,15 +6,8 @@ import './pastWagers.css';
 export default class PastWagers extends Component {
   static contextType = BragContext;
 
-  selectWager(selectedWager){
-    this.context.setSelectedWager({
-      ...selectedWager
-    })
-  }
-
   render(){
     const { lostWagers, wonWagers, user, friends } = this.context;
-    // const wagerTypes = ['wonWagers', 'lostWagers']
 
     return(
       wonWagers.length > 0 || lostWagers.length > 0
@@ -23,7 +16,7 @@ export default class PastWagers extends Component {
           <div className='betContainer'>
           {wonWagers.length > 0 
             ? wonWagers.map(bet =>
-              <div key={bet.id} className='won' onClick={() => this.selectWager(bet)}> 
+              <div key={bet.id} className='won' onClick={() => this.context.setSelectedWager(bet)}> 
                 <ul>
                   <li id='wagerTitle'>{Helpers.shorten(bet.title)}</li>
                   <li><img src='../chip32.png' alt='chip icon' className='wagerIcon'/> {Helpers.shorten(bet.wager)}</li>
@@ -36,7 +29,7 @@ export default class PastWagers extends Component {
           }
           {lostWagers.length > 0 
             ? lostWagers.map(bet =>
-              <div key={bet.id} className='lost' onClick={() => this.selectWager(bet)}> 
+              <div key={bet.id} className='lost' onClick={() => this.context.setSelectedWager(bet)}> 
                 <ul>
                   <li id='wagerTitle'>{Helpers.shorten(bet.title)}</li>
                   <li><img src='../chip32.png' alt='chip icon' className='wagerIcon'/> {Helpers.shorten(bet.wager)}</li>

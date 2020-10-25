@@ -3,7 +3,6 @@ import jwt_decode from 'jwt-decode';
 import BragContext from '../BragContext';
 import AuthApiService from '../../services/auth-api-service';
 import TokenService from '../../services/token-service';
-import Header from '../Header/Header';
 import Swal from 'sweetalert2';
 import './login.css';
 
@@ -68,8 +67,7 @@ export default class LogIn extends Component {
         
         return(
           <>
-          <Header />
-          <div className='login'>
+          <div className='login' id='login'>
             <h3>Log In</h3>
             <h4>For testing purposes you may use Username: "Username" Password: "password" which are both case sensitive.</h4>
             <form onSubmit={this.handleSubmit}>

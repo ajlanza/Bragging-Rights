@@ -6,12 +6,6 @@ import BragContext from '../BragContext';
 export default class ApprovedWagers extends Component {
   static contextType = BragContext;
 
-  selectWager(selectedWager){
-    this.context.setSelectedWager({
-      ...selectedWager
-    })
-  }
-
   render() {
     let { approvedWagers, user, friends } = this.context;
 
@@ -21,7 +15,7 @@ export default class ApprovedWagers extends Component {
           <h3>Current Wagers</h3>
           <div className='betContainer'>
           {approvedWagers.map(bet =>
-            <div key={bet.id} className='wager selectable' onClick={() => this.selectWager(bet)}> 
+            <div key={bet.id} className='wager selectable' onClick={() => this.context.setSelectedWager(bet)}> 
             <ul>
               <li id='wagerTitle'>{Helpers.shorten(bet.title)}</li>
               <li><img src='../date.png' alt='date icon' className='wagerIcon'/> {Helpers.processDate(bet.start_date)}</li>

@@ -40,8 +40,9 @@ export default class Nav extends Component {
     TokenService.clearAuthToken();
     this.context.clearAll();
     this.setState({
-      open: false
+      open: false,
     })
+    localStorage.clear();
   }
 
   render(){

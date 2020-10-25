@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import BragContext from '../BragContext';
-import Header from '../Header/Header';
 import './SignUp.css';
 import AuthApiService from '../../services/auth-api-service';
 import Swal from 'sweetalert2'
@@ -70,7 +69,6 @@ export default class SignUp extends Component {
   render() {
     return (      
       <>
-      <Header />
       <div className='signup'>
         <h3>Please fill out the form to register an account.</h3>
         <form className='signup-form' onSubmit={this.handleSubmit}>
@@ -88,6 +86,7 @@ export default class SignUp extends Component {
             {/* apply class to input field depending on whether or not password match is confirmed */}
             <input required type="password" name='confirm' id='confirm' className={this.state.match ? 'confirmed' : 'unconfirmed'} onChange={this.confirmPassword} title='Passwords must be at least 8 characters long'/>
           </div>
+          <br />
           {/* if passwords don't match disable the submit button */}
           <button type='submit' disabled={!this.state.match}>Sign Up</button>
         </form>

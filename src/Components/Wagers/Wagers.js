@@ -42,7 +42,7 @@ export default class Wagers extends Component{
   }
 
   render() {
-    let { selectedWager, needsMyApproval, awaitingOtherBettor, user, approvedFriends } = this.context;    
+    let { selectedWager, user } = this.context;    
     let approveDenyBtns = [
       { label: 'approve2', parameter: 'approved' },
       { label: 'deny2', parameter: 'denied' },
@@ -62,7 +62,7 @@ export default class Wagers extends Component{
         selectedWager.hidden === false 
           // SelectedWager should be shown
           ?      
-          <ul className='selected-bet' onClick={() => this.hideSelectedWager()}>
+          <ul className={`selected-bet ${selectedWager.type}`} onClick={() => this.hideSelectedWager()}>
             <h2 id='wagerTitle'> {selectedWager.title} </h2>
             <li><img src='../chip32.png' alt='chip icon' className='wagerIcon'/> {selectedWager.wager} </li>
             <li><img src='../date.png' alt='start date icon' className='wagerIcon'/> 
@@ -76,7 +76,7 @@ export default class Wagers extends Component{
               ? Helpers.processDate(selectedWager.end_date)
               : 'N/A'}
             </li>
-            <li><img src='../friend.png' alt='friend icon' className='wagerIcon'/>{Helpers.getFriendById(user.id, approvedFriends, selectedWager.bettor1, selectedWager.bettor2)}</li> 
+            <li><img src='../friend.png' alt='friend icon' className='wagerIcon'/>{selectedWager.betAgainst}</li> 
             {/* If wager needs user approval, give user approve and deny buttons */}
             {selectedWager.wager_status === 'pending bettor2' && selectedWager.bettor2 === user.id 
             ?
@@ -107,10 +107,6 @@ export default class Wagers extends Component{
         }
      
       <ApprovedWagers />
-      {needsMyApproval.length > 0 || awaitingOtherBettor.length > 0
-        ? <h3>Pending Wagers</h3>
-        : ''
-      }
       <WagersNeedApproval />
       <PendingWagers />
       <PastWagers />

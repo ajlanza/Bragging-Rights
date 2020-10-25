@@ -92,18 +92,23 @@ export class BragContextProvider extends Component {
     if(wagers.length > 0){
       wagers.forEach(bet => {
         if(bet.winner === this.state.user.id){
+          bet.type = 'win'
           wonWagers.push(bet);
         }
         if(bet.winner !== 0 && bet.winner !== this.state.user.id){
+          bet.type = 'loss'
           lostWagers.push(bet);
         }
         if(bet.wager_status === 'approved'){
+          bet.type = 'approved'
           approvedWagers.push(bet);
         }
         if(bet.wager_status === 'pending bettor2' && bet.bettor2 === this.state.user.id){
+          bet.type = 'needsMyApproval'
           needsMyApproval.push(bet);
         }
         if(bet.wager_status === 'pending bettor2' && bet.bettor1 === this.state.user.id){
+          bet.type = 'awaitingOtherBettor'
           awaitingOtherBettor.push(bet);
         }
       })
@@ -119,7 +124,7 @@ export class BragContextProvider extends Component {
       betAgainst = selectedWager.bettor2
     }
     for( let i = 0; i < this.state.friends.length; i++){
-      if(this.state.friends[i].id === betAgainst){
+      if(this.state.friends[i].friend_id === betAgainst){
         betAgainst = this.state.friends[i].username
       }
     }

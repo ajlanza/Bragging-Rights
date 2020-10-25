@@ -93,3 +93,12 @@
 .wager li{
   padding: 4px;
 }
+
+.loss{
+  border: 2px solid red;
+  background-color: rgb(250, 183, 183);
+}
+.win {
+  border: 2px solid green;
+  background-color: rgb(205, 255, 205);
+}

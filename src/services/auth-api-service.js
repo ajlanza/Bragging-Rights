@@ -116,20 +116,6 @@ const AuthApiService = {
       )
   },
 
-  // updateWagerWinner(wager) {
-  //   return fetch(`${config.API_ENDPOINT}/api/wagers`, {
-  //     method: 'PATCH',
-  //     headers: {
-  //       'content-type': 'application/json',
-  //     },
-  //     body: JSON.stringify(wager),
-  //   })
-  //     .then(res =>
-  //       (!res.ok)
-  //        ? res.json().then(e => Promise.reject(e))
-  //        : res.json()
-  //     )
-  // }
 }
 
 export default AuthApiService
