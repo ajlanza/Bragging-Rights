@@ -92,8 +92,8 @@ export default class NewBet extends Component{
               </select>
               
           : <p className='noValues'>No friends set up yet.</p>}
-          
-          <button type='submit' className='newBetButton'>Create bet</button>
+          {/* If user has no approved friends don't allow them to create bet */}
+          <button type='submit' className='newBetButton' disabled={approvedFriends.length > 0 ? false : true}>Create bet</button>
         </form>
       </div>
     )
