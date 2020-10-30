@@ -90,7 +90,7 @@ export default class Wagers extends Component{
               </li>
             : selectedWager.wager_status === 'approved' && selectedWager.winner === 0
               ? 
-                <li className='approveDenyContainer'>{winLoseBtns.map(btn =>
+                <li className='winLoseContainer'>{winLoseBtns.map(btn =>
                   <input type='button' 
                     key={btn.label} 
                     value={btn.label}

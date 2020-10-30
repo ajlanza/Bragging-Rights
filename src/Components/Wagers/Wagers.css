@@ -45,6 +45,10 @@
   align-items: center; */
   justify-content: space-evenly;
 }
+.winLoseContainer{
+  width: 100%;
+  text-align: center;
+}
 .approveDenyButtons{
   display: inline-block;
   justify-content: center;
