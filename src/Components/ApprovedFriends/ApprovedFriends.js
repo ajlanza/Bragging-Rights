@@ -9,7 +9,7 @@ export default class ApprovedFriends extends Component {
     return (
       approvedFriends.length > 0
         ? approvedFriends.map(friend => 
-          <ul className='friend' key={friend.username}>
+          <ul className='friend' key={friend.username} onClick={() => this.context.setSelectedFriend(friend)}>
             <li>{friend.username}</li>
             <li><img className ='friendAvatar' src={friend.avatar} alt='avatar'/></li>
           </ul>)

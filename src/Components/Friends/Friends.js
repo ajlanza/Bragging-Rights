@@ -6,6 +6,7 @@ import './friends.css'
 import AwaitingFriends from '../AwaitingFriends/AwaitingFriends';
 import PendingFriends from '../PendingFriends/PendingFriends';
 import ApprovedFriends from '../ApprovedFriends/ApprovedFriends';
+import Helpers from '../../services/helpers';
 
 export default class Friends extends Component {
   static contextType = BragContext;
@@ -77,11 +78,31 @@ export default class Friends extends Component {
       }) 
   }
 
+  hideSelectedFriend(){
+    this.context.hideSelectedFriend();
+  }
+
   render(){
-    let { awaitingFriends, pendingFriends } = this.context
+    let { awaitingFriends, pendingFriends, selectedFriend } = this.context
     return(
       <>
       <h3>Friends</h3>
+      {selectedFriend.length === 0
+        // No friend is selected, display nothing
+        ? ''
+        // Friend is selected 
+        : selectedFriend.hidden === false
+          // Friend is not hidden, display
+          ? <ul className='selected-friend' onClick={() => this.hideSelectedFriend()}>
+              <li><h2>Vs. {selectedFriend.username}</h2></li>
+              <li><img className ='friendAvatar' src={selectedFriend.avatar} alt='avatar'/></li>
+              <li>I've Won: {selectedFriend.win}</li>
+              <li>I've Lost: {selectedFriend.loss}</li>
+              <li>My win ratio: {Helpers.winRatio(selectedFriend.win, selectedFriend.loss)}</li>
+            </ul>
+          // Friend is selected but hidden, don't display
+          : ''
+      }
         <div className='friendContainer'>
           <form  className='addFriend friend' onSubmit={this.checkHasMatch}>
             <h3>Add a friend</h3>

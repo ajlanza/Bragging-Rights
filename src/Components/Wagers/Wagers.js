@@ -40,6 +40,30 @@ export default class Wagers extends Component{
       })
       .catch(this.context.setError)
   }
+  handleAssignWinner(wager_id, winner_id, loser_id){
+    let wager = { wager_id, winner_id, loser_id, type: 'winner' };
+    console.log('winner id: ', winner_id, 'loser id: ', loser_id);
+    console.log('wager ', wager);
+    AuthApiService.assignWinner(wager)
+    .then(() => {
+      AuthApiService.getWagers(this.context.user.id)
+        .then(data => {
+          this.context.setWagers(data);
+        })
+      
+      AuthApiService.getFriends(this.context.user.id)
+        .then(data => {
+          this.context.setFriends(data);
+        })
+      AuthApiService.getUser(this.context.user.id)
+        .then(data => {
+          console.log('user from wager.js handleassignwinner: ', data)
+          this.context.setUser(data);
+        })
+    })
+    .catch(this.context.setError)
+
+  }
 
   render() {
     let { selectedWager, user } = this.context;    
@@ -48,8 +72,8 @@ export default class Wagers extends Component{
       { label: 'deny2', parameter: 'denied' },
     ];
     let winLoseBtns = [
-      { label: 'I won!', parameter: user.id },
-      { label: 'I lost.', parameter: user.id === selectedWager.bettor1 ? selectedWager.bettor2 : selectedWager.bettor1 }
+      { label: 'I won!', winner: user.id, loser: user.id === selectedWager.bettor1 ? selectedWager.bettor2 : selectedWager.bettor1 },
+      { label: 'I lost.', winner: user.id === selectedWager.bettor1 ? selectedWager.bettor2 : selectedWager.bettor1, loser: user.id }
     ]
     return(
       <>
@@ -94,10 +118,12 @@ export default class Wagers extends Component{
                   <input type='button' 
                     key={btn.label} 
                     value={btn.label}
-                    onClick={() => this.handleUpdateWager(selectedWager.id, btn.parameter, 'winner')} 
+                    onClick={() => this.handleAssignWinner(selectedWager.id, btn.winner, btn.loser)} 
                     className='winLoseButtons'/>
                   )}
+                  
                 </li>
+                
               : ''
             }
 

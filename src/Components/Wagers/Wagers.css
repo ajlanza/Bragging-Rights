@@ -77,7 +77,7 @@
   justify-content: space-evenly;
   flex-wrap: wrap;
 }
-.selected-bet{
+.selected-bet {
   text-align: left;
   display: absolute;
   z-index: 1;
