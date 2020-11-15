@@ -27,6 +27,19 @@ const Helpers = {
     let newTitle = `${title.slice(0, 13)}...`;
     return newTitle;
   },
+
+  winRatio(wins, losses){
+    const totalBets = wins + losses;
+    if(totalBets === 0)
+      return `N/A`;
+    if(wins === 0)
+      return 0;
+    const percentage = wins/totalBets*100;
+    if(isNaN(percentage)) {
+      return 'No completed wagers.'
+    }
+    return `${percentage.toFixed(2)}%`;
+  }
  
 }
 

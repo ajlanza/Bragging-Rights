@@ -28,7 +28,9 @@ export default class LogIn extends Component {
         const newUser = {
           id: decoded.user_id,
           username: decoded.sub,
-          avatar: decoded.avatar
+          avatar: decoded.avatar,
+          total_wins: decoded.total_wins,
+          total_losses: decoded.total_losses,
         };
         this.context.setUser(newUser);
         this.setAll();

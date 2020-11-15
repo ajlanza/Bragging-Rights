@@ -16,6 +16,18 @@ const AuthApiService = {
       )
   },
 
+  getUser(user_id) {
+    return fetch(`${config.API_ENDPOINT}/api/users/${user_id}`, {
+      method: 'GET',
+      headers: {},
+    })
+    .then(res => 
+      (!res.ok)
+        ? res.json({error: {message: `Can't retrieve user.`}})
+        : res.json()
+    )
+  },
+  
   postUser(user) {
     return fetch(`${config.API_ENDPOINT}/api/users`, {
       method: 'POST',
@@ -102,6 +114,21 @@ const AuthApiService = {
   },
 
   updateWager(wager) {
+    return fetch(`${config.API_ENDPOINT}/api/wagers`, {
+      method: 'PATCH',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(wager),
+    })
+      .then(res =>
+        (!res.ok)
+         ? res.json().then(e => Promise.reject(e))
+         : res.json()
+      )
+  },
+
+  assignWinner(wager) {
     return fetch(`${config.API_ENDPOINT}/api/wagers`, {
       method: 'PATCH',
       headers: {

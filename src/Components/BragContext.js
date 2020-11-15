@@ -27,6 +27,7 @@ const BragContext = React.createContext({
   approvedFriends: [],
   pendingFriends: [],
   awaitingFriends: [],
+  selectedFriend: [],
   selectedWager: [],
   error: null,
   authorized: null,
@@ -36,6 +37,8 @@ const BragContext = React.createContext({
   setSelectedWager: () => {},
   hideSelectedWager: () => {},
   setFriends: () => {},
+  setSelectedFriend: () => {},
+  hideSelectedFriend: () => {},
   setUser: () => {},
   setAuthorized: () => {},
   setError: () => {},
@@ -60,6 +63,7 @@ export class BragContextProvider extends Component {
     approvedFriends: [],
     pendingFriends: [],
     awaitingFriends: [],
+    selectedFriend: [],
     selectedWager: [],
     error: null,
     authorized: false,
@@ -78,6 +82,7 @@ export class BragContextProvider extends Component {
       approvedWagers: [],
       needsMyApproval: [],
       awaitingOtherBettor: [],
+      selectedFriend: [],
       selectedWager: [],
       authorized: false
     })
@@ -129,7 +134,11 @@ export class BragContextProvider extends Component {
       }
     }
     selectedWager = { ...selectedWager, betAgainst, hidden: false};
-    this.setState({ selectedWager })
+    let { selectedFriend } = this.state;
+    selectedFriend.hidden = true;
+    this.setState({ 
+      selectedWager, 
+      selectedFriend })
   }
 
   hideSelectedWager = () =>{
@@ -137,6 +146,23 @@ export class BragContextProvider extends Component {
     selectedWager.hidden = true;
     this.setState({
       selectedWager
+    })
+  }
+
+  setSelectedFriend = selectedFriend => {
+    let { selectedWager } = this.state;
+    selectedWager.hidden = true;
+    selectedFriend.hidden = false;
+    this.setState({ 
+      selectedFriend,
+      selectedWager })
+  }
+
+  hideSelectedFriend = () =>{
+    let { selectedFriend } = this.state;
+    selectedFriend.hidden = true;
+    this.setState({
+      selectedFriend
     })
   }
 
@@ -164,11 +190,14 @@ export class BragContextProvider extends Component {
   }
 
   setUser = user => {
+    console.log(user);
     this.setState({
        user: {
          id: user.id,
          username: user.username,
-         avatar: user.avatar
+         avatar: user.avatar,
+         total_wins: user.total_wins,
+         total_losses: user.total_losses,
        } 
     })
   }
@@ -200,6 +229,7 @@ export class BragContextProvider extends Component {
       pendingFriends: this.state.pendingFriends,
       awaitingFriends: this.state.awaitingFriends,
       user: this.state.user,
+      selectedFriend: this.state.selectedFriend,
       selectedWager: this.state.selectedWager,
       authorized: this.state.authorized,
       clearAll: this.clearAll,
@@ -209,6 +239,8 @@ export class BragContextProvider extends Component {
       setSelectedWager: this.setSelectedWager,
       hideSelectedWager: this.hideSelectedWager,
       setFriends: this.setFriends,
+      setSelectedFriend: this.setSelectedFriend,
+      hideSelectedFriend: this.hideSelectedFriend,
       setUser: this.setUser,
       setAuthorized: this.setAuthorized,
     }
