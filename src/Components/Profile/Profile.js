@@ -7,10 +7,9 @@ import Friends from '../Friends/Friends';
 
 export default class Profile extends Component{
   static contextType = BragContext;
-
+  
   render() {
     let {  user } = this.context;
-    
     return(
       <div className='profile'>
         <h2>{user.username}</h2>

@@ -42,8 +42,6 @@ export default class Wagers extends Component{
   }
   handleAssignWinner(wager_id, winner_id, loser_id){
     let wager = { wager_id, winner_id, loser_id, type: 'winner' };
-    console.log('winner id: ', winner_id, 'loser id: ', loser_id);
-    console.log('wager ', wager);
     AuthApiService.assignWinner(wager)
     .then(() => {
       AuthApiService.getWagers(this.context.user.id)
@@ -57,7 +55,6 @@ export default class Wagers extends Component{
         })
       AuthApiService.getUser(this.context.user.id)
         .then(data => {
-          console.log('user from wager.js handleassignwinner: ', data)
           this.context.setUser(data);
         })
     })

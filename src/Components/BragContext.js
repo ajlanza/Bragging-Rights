@@ -5,6 +5,8 @@ const BragContext = React.createContext({
     id: null,
     username: null,
     avatar: 'club.png',
+    total_wins: null,
+    total_losses: null,
   },
   friends: [{
     friend_id: null,
@@ -51,7 +53,9 @@ export class BragContextProvider extends Component {
     user: {
       id: null,
       username: null,
-      avatar: 'club.png'
+      avatar: 'club.png',
+      total_wins: null,
+      total_losses: null,
     },
     friends: [],
     wagers: [],
@@ -190,7 +194,6 @@ export class BragContextProvider extends Component {
   }
 
   setUser = user => {
-    console.log(user);
     this.setState({
        user: {
          id: user.id,
